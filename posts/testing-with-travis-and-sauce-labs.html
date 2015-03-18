@@ -1,0 +1,130 @@
+<html>
+  <head>
+    <title>Testing in a real browser with Sauce Labs with Travis CI </title>
+    <style>
+      article {
+        max-width: 650px;
+        margin: 0 auto;
+      }
+
+      article img {
+        max-width: 100%;
+      }
+
+      p {
+        line-height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+    <h1> Testing in a real browser with Sauce Labs with Travis CI </h1>
+    <p>
+I recently found myself implementing a basic set of javascript integration tests on an open source project. I quickly came to the realization that there is a serious lack of good documentation on how to get a basic browser test running on a Travis CI using Sauce Labs and Sauce Connect.
+    </p>
+    <p>
+    After stumbling across the barren desert of outdated doc pages, incorrect stackoverflow answers, and ancient google group posting, I present to you the spoils of my quest to the underbelly of the web.
+  </p>
+    <p>
+Let's approach this in the context of a real problem: Testing javascript in a real web browser.
+<br/>
+<a href="https://github.com/samccone/travis-sauce-connect" target="_blank">(view the complete project here)</a>
+</p>
+
+<h3>Setting up travis.ci</h3>
+<img src="http://i.imgur.com/12NjhCM.gif"/>
+<p>
+<a href="https://github.com/samccone/travis-sauce-connect/commit/53fe56d9941b3fdff387268ef10c775bbe5e3df5" target="_blank">(view the full diff)</a>
+<br/>
+To get going we are going to setup <a href="https://travis-ci.org/" target="_blank">http://travis.ci</a> to run on our repo.
+</p>
+
+<h4>Setting up our repo to work with travis</h4>
+<p>
+Once travis is enabled we will want to setup a basic .travis.yml file to run a basic test on our repo.
+</p>
+<script src="https://gist.github.com/samccone/caf551221b58052bb57c.js"></script>
+<p>
+We are telling it to use node_js and specifying the version of node. By default node projects will run npm install and npm test so everything should be good to go.
+
+And we will see our basic test run
+</p>
+
+<h3>Creating our first browser test.</h3>
+
+<img src="http://i.imgur.com/ZxZKFJH.gif"/>
+<a href="https://github.com/samccone/travis-sauce-connect/commit/1a1f9da35fba80e60fa2485564bdba0ce4d9313d" target="_blank">(commit diff)</a>
+
+<p>
+To take advantage of Sauce Lab and Sauce Connect we are going to need to use <a href="http://docs.seleniumhq.org/projects/webdriver/" target="_blank">selenium webdriver</a>. In case you are not familiar with selenium, it allows you to remotely control a web browser through code (pretty awesome stuff).
+</p>
+<p>
+The documentation for it is a bit hard to find but I will link it here so you do not have to go hunting
+<a href="http://selenium.googlecode.com/git/docs/api/javascript/class_webdriver_WebElement.html" target="_blank">http://selenium.googlecode.com/git/docs/api/javascript/class_webdriver_WebElement.html</a>
+</p>
+<h4> We will want to install selenium and setup out basic tests</h4>
+<p>
+Instead of going over the entire diff lets look at a few critical pieces of the code.
+<script src="https://gist.github.com/samccone/c916568e959ccf68acfa.js"></script>
+</p>
+<p>
+At a high level we are setting up selenium to launch a chrome instance, visiting the page we want to test, clicking on an element, and then asserting that the clicked element's text has changed to an expected value.
+</p>
+<p>
+There is a bit of async complexity going on that mocha and selenium for the most part abstract for us, so no need to fret about that for now.
+</p>
+<p>
+If you noticed we are visiting http://localhost:8000, that means that we need to boot up a server to serve our content. Travis makes this easy enough via a before_script task. In the task we will just start a python simple server and give it a few seconds to boot. The ampersand at the end of the python line tells travis to run the process in the background instead of blocking the execution thread, allowing us to run tasks at the same time.
+</p>
+<script src="https://gist.github.com/samccone/78c4d9b9e0903d4567d7.js"></script>
+<p>
+Believe it or not that is all we need to run our tests in a real browser (or at least it seems to satisfy the requirements to run things locally).</p>
+
+<h3>And in Comes Sauce Labs</h3>
+<p>
+<a href="https://github.com/samccone/travis-sauce-connect/commit/66f35e2380aebc0abdb85d365731d012b442d7fa" target="_blank">(view the full diff)</a>
+<br/>
+When we push our work from before, we are rudely awoken by the unfortunate fact that nothing is working on travis.
+
+<img src="http://i.imgur.com/bqMN41c.png"/>
+<a href="https://travis-ci.org/samccone/travis-sauce-connect/builds/54796160" target="_blank">https://travis-ci.org/samccone/travis-sauce-connect/builds/54796160</a>
+</p>
+
+<p>
+This is where we will lean on Sauce. Sauce Labs provides its services for free for Open Source projects.
+
+We can get our access keys via <a href="https://docs.saucelabs.com/ci-integrations/travis-ci/" target="_blank">https://docs.saucelabs.com/ci-integrations/travis-ci/</a> and just add the encrypted keys to our travis.yml file, these keys will allow us to connect to Sauce's VM cluster to run our tests against.
+<img src="http://i.imgur.com/Ky8ck7g.png"/>
+</p>
+<p>
+From here we just need to enable the sauce_connect addon for travis, again only a minor change to the travis.yml file is needed.
+</p>
+<img src="http://i.imgur.com/0rnWT2p.png"/>
+<p>
+The next step is to tweak our selenium browser build step to use sauce labs VMs instead of the local machines.
+</p>
+<script src="https://gist.github.com/samccone/babb69f679b485743522.js"></script>
+<p>
+Our beforeEach step gets a tiny bit more complex. We first detect if there is a sauce environment variable and if so we setup the browser with the required parameters for it to connect to Sauce's infrastructure.  After that setup is done, we can be blind to the changes that we made, since we will not have to worry about it again.
+</p>
+
+<p>
+Once we push our changes we can see everything works like charm!
+<img src="http://i.imgur.com/7ABXcqI.jpg"/>
+</p>
+<p>
+We even get an awesome playback video from sauce to help us debug if there were any problems
+
+<a target="_blank" href="https://saucelabs.com/tests/3175791d57b54595aa4a5c383f08faa8">Sauce Test Playback</a>
+</p>
+<hr>
+<p>
+Hopefully this helps to codify the path to adding integration tests on your javascript projects.
+<br/>
+If you still have questions please reach out via a <a href="https://github.com/samccone/travis-sauce-connect">github issue</a> or on <a href="htttp://twitter.com/samccone">twitter</a>.
+<br/>
+Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
+</p>
+</article>
+  </body>
+</html>
