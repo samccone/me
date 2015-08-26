@@ -1,0 +1,20 @@
+article {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+article img {
+  max-width: 100%;
+}
+
+p {
+  line-height: 30px;
+}
+
+quote {
+  padding: 20px;
+  font-style: italic;
+  font-size: 21px;
+  display: block;
+  color: #888;
+}

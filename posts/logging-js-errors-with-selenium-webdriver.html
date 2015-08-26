@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Logging js errors with Selenium Webdriver</title>
+    <link rel="stylesheet" href="post.css">
+  </head>
+  <body>
+    <article>
+      <h1> Logging js errors with Selenium Webdriver</h1>
+      <p>Imagine a world where your continuous integration server is failing, but everything is passing locally.</p>
+      <p>Sound familer? Wish that you could just open the browser console and look to see if there were any errors?</p>
+      <p><b>Good news!</b> this is a solved problem and something that you can put to use right now.</p>
+      <p><quote>Solved problem? but I have googled around and there are 0 good instructions for how to do this</quote></p>
+      <img src="https://cloud.githubusercontent.com/assets/883126/9508477/fa434ad2-4c12-11e5-86ba-a63c11f60d91.png"/>
+      <p>Well... <b>here is the solution!</b></p>
+      <pre><code>
+        var webdriver = require('selenium-webdriver');
+        var browser = new webdriver.Builder()
+        .withCapabilities({
+          browserName: 'chrome'
+        }).build();
+
+        // write your awesome tests here
+
+
+        // when you want logs
+        (new webdriver.WebDriver.Logs(browser))
+        .get('browser')
+        .then(function (v) {
+          v && v.length && console.log(v);
+        });
+      </code></pre>
+      <img src="https://cloud.githubusercontent.com/assets/883126/9508558/bf4c1958-4c13-11e5-8ca6-7498ff96cfe8.png"/>
+      <p> And just like that you will have JS and console errors reported to you on CI! </p>
+      <hr>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES * * */
+          var disqus_shortname = 'samsaccone';
+
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </article>
+  </body>
+
