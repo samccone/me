@@ -1,6 +1,7 @@
 article {
   max-width: 650px;
   margin: 0 auto;
+  word-break: break-word;
 }
 
 article img {
