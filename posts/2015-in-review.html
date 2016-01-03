@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <title>2015 - Reworking my process</title>
+    <link rel="stylesheet" href="post.css">
+  </head>
+  <body>
+    <article>
+      <h3 align="center">2015 - Reworking my process</h3>
+
+      <p>In 2015 I had the opportunity to work with some really remarkable programmers who gave me the freedom and trust to not just blindly implement feature after feature or fix as many bugs as possible, but rather to question why a feature is needed, or what the origin of a given bug was. </p>
+
+      <p>With this trust, I took the opportunity to explore the origin of problems instead of just applying a patch and moving on.</p>
+
+      <h4>Beaker Notebook</h4>
+
+      <p>For the majority of the year I worked hand in hand with <a href="https://github.com/scottdraves" class="user-mention">@scottdraves</a> on an interesting and very complex piece of software <a href="http://beakernotebook.com/">http://beakernotebook.com/</a>. As with any software at a given scale, memory and performance, and "feature debt" became serious issues that had to be dealt with.</p>
+
+      <p>Beaker Notebook was actually the reason I started to deep dive into performance, and profiling, because I wanted to understand what was actually causing slowness and wanted to present valid before and after numbers on my work, not just a blind "this makes things faster" comment. </p>
+
+      <p>Since the project had some unique challenges, It actually was the impetus to create two new OSS projects which directly helped fix and identify performance related issues. </p>
+
+      <p><a href="https://github.com/samccone/scrollin">https://github.com/samccone/scrollin</a> - A leak free performance focused scroll util <br>
+      <a href="https://github.com/samccone/drool">https://github.com/samccone/drool</a> - automated memory leak detection and analysis</p>
+
+      <p><a href="https://github.com/twosigma/beaker-notebook/pull/1714" class="issue-link js-issue-link" data-url="https://github.com/twosigma/beaker-notebook/issues/1714" data-id="85593522" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">twosigma/beaker-notebook#1714</a></p>
+
+      <p><a href="https://github.com/twosigma/beaker-notebook/pull/1714"><img src="https://cloud.githubusercontent.com/assets/883126/12081173/8c7d4d7a-b226-11e5-9b0a-ab46e351dac4.png" alt="screen shot 2016-01-03 at 12 57 02 pm" style="max-width:100%;"></a></p>
+
+      <p><a href="https://github.com/twosigma/beaker-notebook/pull/1615" class="issue-link js-issue-link" data-url="https://github.com/twosigma/beaker-notebook/issues/1615" data-id="76450288" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">twosigma/beaker-notebook#1615</a></p>
+
+      <p><a href="https://github.com/twosigma/beaker-notebook/pull/1615"><img src="https://cloud.githubusercontent.com/assets/883126/12081174/8fb9cb94-b226-11e5-90ac-0bf94ef71a31.png" alt="screen shot 2016-01-03 at 12 59 18 pm" style="max-width:100%;"></a></p>
+
+      <h4>TodoMVC</h4>
+
+      <p>During mid 2015, I become involved with TodoMVC working alongside <a href="https://github.com/passy" class="user-mention">@passy</a>, <a href="https://github.com/sindresorhus" class="user-mention">@sindresorhus</a>, and <a href="https://github.com/addyosmani" class="user-mention">@addyosmani</a></p>
+
+      <p>After working on the project for a few months, I noticed a significant amount of churn in our review process, from style related nits, to the difficulty around running integration tests locally and on CI… So I made solving these specific problems a priority for me.</p>
+
+      <p>The first step was to make our integration tests run on CI over the projects that had been changed. <a href="http://samsaccone.com/posts/testing-with-travis-and-sauce-labs.html">http://samsaccone.com/posts/testing-with-travis-and-sauce-labs.html</a></p>
+
+      <p><a href="https://github.com/tastejs/todomvc/pull/1212" class="issue-link js-issue-link" data-url="https://github.com/tastejs/todomvc/issues/1212" data-id="62274815" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">tastejs/todomvc#1212</a></p>
+
+      <p><a href="https://github.com/tastejs/todomvc/pull/1212"><img src="https://cloud.githubusercontent.com/assets/883126/12081184/b8c888cc-b226-11e5-9225-958ecdec9170.png" alt="screen shot 2016-01-03 at 1 09 20 pm" style="max-width:100%;"></a></p>
+
+      <p>The next challenge was to run style related tests over the changed projects (jscs/jshint) according to our lint rules</p>
+
+      <p><a href="https://github.com/tastejs/todomvc/pull/1288" class="issue-link js-issue-link" data-url="https://github.com/tastejs/todomvc/issues/1288" data-id="73478161" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">tastejs/todomvc#1288</a></p>
+
+      <p><a href="https://github.com/tastejs/todomvc/pull/1288"><img src="https://cloud.githubusercontent.com/assets/883126/12081187/c3d4b9ca-b226-11e5-8223-d3a835fa57ed.png" alt="screen shot 2016-01-03 at 1 12 48 pm" style="max-width:100%;"></a></p>
+
+      <p>It was during this time that I was becoming more aware of memory issues, Initially I was manually auditing each framework, and working with the maintainers to fix the leaks.. however it was clear that there were significant costs and disconnects when trying to explain the leaks and when helping others to reproduce the leaks locally.. so I implemented a suite of automatic memory tests for every PR on TodoMVC</p>
+
+      <p><a href="https://github.com/tastejs/todomvc/pull/1464" class="issue-link js-issue-link" data-url="https://github.com/tastejs/todomvc/issues/1464" data-id="110579409" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">tastejs/todomvc#1464</a></p>
+
+      <p><a href="https://github.com/tastejs/todomvc/pull/1464"><img src="https://cloud.githubusercontent.com/assets/883126/12081191/d56b9cf8-b226-11e5-9d71-9f05ff874d98.png" alt="screen shot 2016-01-03 at 1 17 55 pm" style="max-width:100%;"></a></p>
+
+      <p>These automatic memory tests not only caught a significant number of memory issues in popular frameworks <img class="emoji" title=":fire:" alt=":fire:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f525.png" height="20" width="20" align="absmiddle"> </p>
+
+      <p><a href="https://github.com/tastejs/todomvc/pull/1337#issuecomment-112821596" class="issue-link js-issue-link" data-url="https://github.com/tastejs/todomvc/issues/1337" data-id="87444677" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">tastejs/todomvc#1337 (comment)</a><br>
+      <a href="https://github.com/tastejs/todomvc/pull/1297#issuecomment-112828342" class="issue-link js-issue-link" data-url="https://github.com/tastejs/todomvc/issues/1297" data-id="76344432" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">tastejs/todomvc#1297 (comment)</a></p>
+
+      <p>But also uncovered some interesting behavior around how the undo buffer operates inside of chromium. <a href="https://code.google.com/p/chromium/issues/detail?id=516153">https://code.google.com/p/chromium/issues/detail?id=516153</a> </p>
+
+      <h4>Performance cont.</h4>
+
+      <p>As the year progressed and my interest in memory profiling and debugging increased I started to do more memory/performance deep dives into popular tools and libraries to see If I could help fix or identify performance related issues. The goal of this work ideally being to help spread the profiling mentality and show others how straight forward profiling can be.</p>
+
+      <h5>Material Design Lite:</h5>
+
+      <p><a href="https://github.com/google/material-design-lite/issues/761" class="issue-link js-issue-link" data-url="https://github.com/google/material-design-lite/issues/761" data-id="93367573" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">google/material-design-lite#761</a></p>
+
+      <p><a href="https://github.com/google/material-design-lite/issues/761"><img src="https://cloud.githubusercontent.com/assets/883126/12081193/e3ca7562-b226-11e5-95fb-258a3e1cad62.png" alt="screen shot 2016-01-03 at 1 33 01 pm" style="max-width:100%;"></a></p>
+
+      <h5>npm3 Perf:</h5>
+
+      <p><a href="https://github.com/npm/npm/issues/10380" class="issue-link js-issue-link" data-url="https://github.com/npm/npm/issues/10380" data-id="116820363" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">npm/npm#10380</a></p>
+
+      <p><a href="https://github.com/npm/npm/issues/10380"><img src="https://cloud.githubusercontent.com/assets/883126/12081201/f7189ff4-b226-11e5-8ec4-4a72f22b956f.png" alt="screen shot 2016-01-03 at 1 33 34 pm" style="max-width:100%;"></a></p>
+
+      <h5>Atom Editor Performance:</h5>
+
+      <p><a href="https://github.com/atom/atom/issues/9720" class="issue-link js-issue-link" data-url="https://github.com/atom/atom/issues/9720" data-id="118095913" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">atom/atom#9720</a></p>
+
+      <p><a href="https://github.com/atom/atom/issues/9720"><img src="https://cloud.githubusercontent.com/assets/883126/12081204/06a0c8fc-b227-11e5-8c69-327b69b206b0.png" alt="screen shot 2016-01-03 at 1 34 42 pm" style="max-width:100%;"></a></p>
+
+      <h4>Talks</h4>
+
+      <p>Between my normal job and OSS work I was able to put together two talks that I was fortunate enough to get accepted at JSConf and DotJS.</p>
+
+      <p><strong>Recreating the dialup modem</strong> (special thanks to <a href="https://github.com/fcanas" class="user-mention">@fcanas</a> for giving me a crash course in DSP)<br>
+      <a href="https://www.youtube.com/watch?v=UKa20yPzGbU">https://www.youtube.com/watch?v=UKa20yPzGbU</a></p>
+
+      <p><strong>Dealing With Garbage</strong><br>
+      <a href="https://docs.google.com/presentation/d/1uom69F6NGURHhrox1Ma50NW1nOKqdxRr0dKDNENwi6Y/edit">https://docs.google.com/presentation/d/1uom69F6NGURHhrox1Ma50NW1nOKqdxRr0dKDNENwi6Y/edit</a></p>
+
+      <hr>
+
+      <h5>TLDR:</h5>
+
+      <p>Over the year I learned that identifying the root issue, is typically the hardest part of any given issue. <br>
+      I learned that helping others with hard, unattractive problems is a great way to grow and build trust. <br>
+      And I learned that hard work is the only shortcut when it comes to solving difficult problems.</p>
+
+      <hr>
+
+      <p>Here it to 2016, and thanks to everything that helped me grow so much in 2015. <img class="emoji" title=":sparkles:" alt=":sparkles:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2728.png" height="20" width="20" align="absmiddle"> </p>
+
+      <p><a href="http://twitter.com/samccone">@samccone</a></p>
+      <hr>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES * * */
+          var disqus_shortname = 'samsaccone';
+
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </article>
+  </body>
+  </html>
