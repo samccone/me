@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>Code reviews not nits</title>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="post.css">
+</head>
+
+<body>
+    <article>
+        <h1>Code reviews not nits</h1>
+        <p>
+            Too often as a team grows you start to see the emergence of code-review nitpicks. <br>
+            For example:<br>
+            <em>"You should order your attributes in alphabetical order"</em><br>
+            <em>"Your DOM needs to be aligned like so"</em>,<br>
+            <em>"This variable name needs to be underscore and not camelCase"</em>,<br>
+            <em>"Replace 0px with 0"</em><br>and so on and so on.
+        </p>
+        <p>
+            While these comments are coming from a good place, and heck your style-guide probably calls for it, the
+            goal of <strong>consistency</strong> from code-review is at odds with manually commenting on these
+            style-guide rules. Each team member will interpret the rules and their strictness differently, each rule
+            enforcement adding more opportunity for <strong>variability </strong>on how and if a rule is enforced.
+        </p>
+        <p>
+            When you are on the receiving end of these reviews one might think "<em>code-reviewer Sally really does a
+                great job finding all of these style issues in my code! She really looks close at every line</em>", or
+            "<em>Wow code-reviewer Tommy does a great job catching things that everyone else missed in code-review</em>".
+            While Sally and Tommy are doing a great job catching this class of issue, they are simply pattern-matching,
+            this pattern-matching review style leads to error blindness during code-review. Whether you think you do or
+            not, we all have an internal counter that ticks up for every code comment we leave during code-review. When
+            that number gets high enough we start moving faster, and missing things. Style nitpicks artificially leave
+            us scanning instead of reviewing, missing real errors with a false sense of comment security.
+        </p>
+        <p>
+            You might be thinking, oh wow this sounds like my team, or hmm I can see how this would become an issue on
+            a team as it grows.. Or you might be thinking no-way would this ever happen to <strong>my team</strong>. I
+            am sorry to say that it will happen, it will happen slowly, and before you know it you will see the rise of
+            the nits, and the rise of frustration from variable code-reviews.
+        </p>
+        <p>
+            We already use computers for pattern matching with code linting, why not extend it to style guide
+            enforcement as well? Oh yeah and that frustration thing that people experience due to these nits? Turns out
+            people have a pretty hard time thinking that a robot is singling them out during code review :D
+        </p>
+        <p>
+            So this robot thing... Let me Introduce you to your future friend <del>nit </del>lint-bot [implementation
+            left to the reader].
+        </p>
+        <pre>
+            <code>
+LINTS = [{
+    fileRegex: ".*\.css",
+    prohibitedRegex: /0px/,
+    errorMessage: "replace 0px with 0 for css units"
+}]
+            </code>
+        </pre>
+        <p>
+            Lint-bot for every code-review reads in all of the configured lints and then scans the appropriate files
+            executing the prohibited regex and commenting where it finds patterns that match. While Lint-bot is not a
+            catch-all for every case, in my experience it does catch and prevent 90~% of the human pattern matching
+            comments, driving down pattern-matching and increasing code-review quality.
+        </p>
+        <p>
+            If you take away anything from reading this I hope it is this: Next time someone leaves a code-review
+            nitpick ask a simple question "What kind of automatic check would have caught this?". If there is no
+            automatic way to catch the nitpick, it's probably unhelpful.
+        </p>
+        <hr>
+    Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
+      <hr>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES * * */
+          var disqus_shortname = 'samsaccone';
+
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+    </article>
+</body>
+</html>
