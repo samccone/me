@@ -7,7 +7,7 @@
   <body>
     <article>
       <div class="comment-body markdown-body markdown-format js-comment-body">
-        <h2 align="center"> Fixing the flake <img class="emoji" title=":8ball:" alt=":8ball:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f3b1.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":zap:" alt=":zap:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a1.png" height="20" width="20" align="absmiddle">  </h2>
+        <h2 align="center"> Fixing the flake <img class="emoji" title=":8ball:" alt=":8ball:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f3b1.png"   align="absmiddle"> <img class="emoji" title=":zap:" alt=":zap:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a1.png"   align="absmiddle">  </h2>
 
         <p align="center">A journey into what javascript means for integration tests.</p>
 
@@ -15,7 +15,7 @@
 
         <p>The TodoMVC integration suite is a unique beast, it has several interesting demands that make it unlike any test suite that I have ever worked on before. The suite must be adaptive in the selectors that it uses based on what version of the spec the app was written against <a href="https://github.com/tastejs/todomvc/commit/90619f55c70ee70fb40caa8277cc1b4a1ccaeefa" class="commit-link"><tt>90619f5</tt></a>, and it must be able to handle slight variations per implementation <a href="https://github.com/tastejs/todomvc/commit/1eeb05515fe0600cf864371fb26ae611bc476db3" class="commit-link"><tt>1eeb055</tt></a>.</p>
 
-        <p>Our suite like most tests suites in the real world <img class="emoji" title=":earth_africa:" alt=":earth_africa:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f30d.png" height="20" width="20" align="absmiddle">  was been plagued by flakey and simply failing tests on CI for a long time. Now that we are running the tests on every PR <a href="https://github.com/tastejs/todomvc/commit/75f6a6859084b8b01170cabb08187e7e8bbee4e2" class="commit-link"><tt>75f6a68</tt></a> on travis <a href="https://github.com/tastejs/todomvc/commit/980cf54d44aae1e38ed0033614294ff0edba4443" class="commit-link"><tt>980cf54</tt></a> this flakiness has only become more obvious <img class="emoji" title=":eyes:" alt=":eyes:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f440.png" height="20" width="20" align="absmiddle"> and bothersome.</p>
+        <p>Our suite like most tests suites in the real world <img class="emoji" title=":earth_africa:" alt=":earth_africa:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f30d.png"   align="absmiddle">  was been plagued by flakey and simply failing tests on CI for a long time. Now that we are running the tests on every PR <a href="https://github.com/tastejs/todomvc/commit/75f6a6859084b8b01170cabb08187e7e8bbee4e2" class="commit-link"><tt>75f6a68</tt></a> on travis <a href="https://github.com/tastejs/todomvc/commit/980cf54d44aae1e38ed0033614294ff0edba4443" class="commit-link"><tt>980cf54</tt></a> this flakiness has only become more obvious <img class="emoji" title=":eyes:" alt=":eyes:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f440.png"   align="absmiddle"> and bothersome.</p>
 
         <p>I wanted to use the TodoMVC test suite as an example of how someone could write explicit tests without succumbing to the dreaded:</p>
 
@@ -26,11 +26,11 @@ driver.sleep(<span class="pl-c1">2000</span>);</pre></div>
 
           <h4>First lets look at how these failures manifested themselves in the test runs.</h4>
 
-          <p><a href="https://cloud.githubusercontent.com/assets/883126/8628625/aa0adf04-2722-11e5-8dfd-9cd194bd8454.png" target="_blank"><img width="965" alt="screen shot 2015-07-10 at 4 42 19 pm" src="https://cloud.githubusercontent.com/assets/883126/8628625/aa0adf04-2722-11e5-8dfd-9cd194bd8454.png" style="max-width:100%;"></a></p>
+          <p><a href="https://cloud.githubusercontent.com/assets/883126/8628625/aa0adf04-2722-11e5-8dfd-9cd194bd8454.png" target="_blank"><img  alt="screen shot 2015-07-10 at 4 42 19 pm" src="https://cloud.githubusercontent.com/assets/883126/8628625/aa0adf04-2722-11e5-8dfd-9cd194bd8454.png" style="max-width:100%;"></a></p>
 
-          <p><a href="https://cloud.githubusercontent.com/assets/883126/8628652/e0345da8-2722-11e5-8028-5d6d2ab2c032.png" target="_blank"><img width="1006" alt="screen shot 2015-07-10 at 4 43 08 pm" src="https://cloud.githubusercontent.com/assets/883126/8628652/e0345da8-2722-11e5-8028-5d6d2ab2c032.png" style="max-width:100%;"></a></p>
+          <p><a href="https://cloud.githubusercontent.com/assets/883126/8628652/e0345da8-2722-11e5-8028-5d6d2ab2c032.png" target="_blank"><img  alt="screen shot 2015-07-10 at 4 43 08 pm" src="https://cloud.githubusercontent.com/assets/883126/8628652/e0345da8-2722-11e5-8028-5d6d2ab2c032.png" style="max-width:100%;"></a></p>
 
-          <p><a href="https://cloud.githubusercontent.com/assets/883126/8628659/e987285e-2722-11e5-9cdf-ff99ac4de991.png" target="_blank"><img width="914" alt="screen shot 2015-07-10 at 4 44 11 pm" src="https://cloud.githubusercontent.com/assets/883126/8628659/e987285e-2722-11e5-9cdf-ff99ac4de991.png" style="max-width:100%;"></a></p>
+          <p><a href="https://cloud.githubusercontent.com/assets/883126/8628659/e987285e-2722-11e5-9cdf-ff99ac4de991.png" target="_blank"><img  alt="screen shot 2015-07-10 at 4 44 11 pm" src="https://cloud.githubusercontent.com/assets/883126/8628659/e987285e-2722-11e5-9cdf-ff99ac4de991.png" style="max-width:100%;"></a></p>
 
           <hr>
 
@@ -58,17 +58,17 @@ driver.sleep(<span class="pl-c1">2000</span>);</pre></div>
           <p>Well dang that stinks because this is going to happen with pretty much every single new framework out there.</p>
 
           <p>to list a few...<br>
-          <strong>Angular</strong> <img class="emoji" title=":white_check_mark:" alt=":white_check_mark:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png" height="20" width="20" align="absmiddle"> <a href="https://github.com/angular/protractor/issues/543" class="issue-link" title="Catch certain webdriver errors like StaleElementReferenceError">angular/protractor#543</a><br>
-          <strong>React</strong> <img class="emoji" title=":white_check_mark:" alt=":white_check_mark:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png" height="20" width="20" align="absmiddle"> <a href="http://stackoverflow.com/questions/30862414/working-around-staleelementreference-in-selenium-webdriver-when-testing-a-react">http://stackoverflow.com/questions/30862414/working-around-staleelementreference-in-selenium-webdriver-when-testing-a-react</a><br>
-          <strong>Backbone</strong> <img class="emoji" title=":white_check_mark:" alt=":white_check_mark:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png" height="20" width="20" align="absmiddle"> <a href="http://stackoverflow.com/questions/28856332/dealing-with-stale-elements-when-using-webdriver-with-backbone-js">http://stackoverflow.com/questions/28856332/dealing-with-stale-elements-when-using-webdriver-with-backbone-js</a></p>
+          <strong>Angular</strong> <img class="emoji" title=":white_check_mark:" alt=":white_check_mark:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png"   align="absmiddle"> <a href="https://github.com/angular/protractor/issues/543" class="issue-link" title="Catch certain webdriver errors like StaleElementReferenceError">angular/protractor#543</a><br>
+          <strong>React</strong> <img class="emoji" title=":white_check_mark:" alt=":white_check_mark:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png"   align="absmiddle"> <a href="http://stackoverflow.com/questions/30862414/working-around-staleelementreference-in-selenium-webdriver-when-testing-a-react">http://stackoverflow.com/questions/30862414/working-around-staleelementreference-in-selenium-webdriver-when-testing-a-react</a><br>
+          <strong>Backbone</strong> <img class="emoji" title=":white_check_mark:" alt=":white_check_mark:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png"   align="absmiddle"> <a href="http://stackoverflow.com/questions/28856332/dealing-with-stale-elements-when-using-webdriver-with-backbone-js">http://stackoverflow.com/questions/28856332/dealing-with-stale-elements-when-using-webdriver-with-backbone-js</a></p>
 
           <p>So what is the solution to the stale element issue? Well instead of hanging onto DOM nodes that we get from selenium we should look them up each time and interact with them. What does this even look like? </p>
 
           <p>In this case what I ended up doing was fetching a list of DOM nodes and then holding onto their index position in the DOM and then requerying them based on this index each time that I needed to interact with it.</p>
 
-          <p><a href="https://cloud.githubusercontent.com/assets/883126/8629072/179e816c-2726-11e5-882c-7f625efd9ec5.png" target="_blank"><img width="598" alt="screen shot 2015-07-10 at 5 06 30 pm" src="https://cloud.githubusercontent.com/assets/883126/8629072/179e816c-2726-11e5-882c-7f625efd9ec5.png" style="max-width:100%;"></a></p>
+          <p><a href="https://cloud.githubusercontent.com/assets/883126/8629072/179e816c-2726-11e5-882c-7f625efd9ec5.png" target="_blank"><img  alt="screen shot 2015-07-10 at 5 06 30 pm" src="https://cloud.githubusercontent.com/assets/883126/8629072/179e816c-2726-11e5-882c-7f625efd9ec5.png" style="max-width:100%;"></a></p>
 
-          <p>Problem solved <img class="emoji" title=":shipit:" alt=":shipit:" src="https://assets-cdn.github.com/images/icons/emoji/shipit.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":rocket:" alt=":rocket:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f680.png" height="20" width="20" align="absmiddle"> </p>
+          <p>Problem solved <img class="emoji" title=":shipit:" alt=":shipit:" src="https://assets-cdn.github.com/images/icons/emoji/shipit.png"   align="absmiddle"> <img class="emoji" title=":rocket:" alt=":rocket:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f680.png"   align="absmiddle"> </p>
 
           <hr>
 
@@ -80,9 +80,9 @@ driver.sleep(<span class="pl-c1">2000</span>);</pre></div>
 
           <p>We can wait for a condition before continuing, so in this case the solution was to wrap getting the DOM nodes in a wait to make sure the element was there and then interact with the node.</p>
 
-          <p><a href="https://cloud.githubusercontent.com/assets/883126/8629197/22a0702e-2727-11e5-9c6d-2f7102b7e97e.png" target="_blank"><img width="518" alt="screen shot 2015-07-10 at 5 13 49 pm" src="https://cloud.githubusercontent.com/assets/883126/8629197/22a0702e-2727-11e5-9c6d-2f7102b7e97e.png" style="max-width:100%;"></a></p>
+          <p><a href="https://cloud.githubusercontent.com/assets/883126/8629197/22a0702e-2727-11e5-9c6d-2f7102b7e97e.png" target="_blank"><img  alt="screen shot 2015-07-10 at 5 13 49 pm" src="https://cloud.githubusercontent.com/assets/883126/8629197/22a0702e-2727-11e5-9c6d-2f7102b7e97e.png" style="max-width:100%;"></a></p>
 
-          <p>The trick here was the <code>thenCatch</code> which allowed us to catch the error case and to force a retry. win! <img class="emoji" title=":tada:" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png" height="20" width="20" align="absmiddle"> </p>
+          <p>The trick here was the <code>thenCatch</code> which allowed us to catch the error case and to force a retry. win! <img class="emoji" title=":tada:" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png"   align="absmiddle"> </p>
 
           <hr>
 
@@ -94,15 +94,15 @@ driver.sleep(<span class="pl-c1">2000</span>);</pre></div>
 
           <p>The solution in this case was to bake in a state test case to ensure that the click actually took effect. </p>
 
-          <p><a href="https://cloud.githubusercontent.com/assets/883126/8629278/dc2bb4e0-2727-11e5-8aab-8230adba4056.png" target="_blank"><img width="616" alt="screen shot 2015-07-10 at 5 19 27 pm" src="https://cloud.githubusercontent.com/assets/883126/8629278/dc2bb4e0-2727-11e5-8aab-8230adba4056.png" style="max-width:100%;"></a></p>
+          <p><a href="https://cloud.githubusercontent.com/assets/883126/8629278/dc2bb4e0-2727-11e5-8aab-8230adba4056.png" target="_blank"><img  alt="screen shot 2015-07-10 at 5 19 27 pm" src="https://cloud.githubusercontent.com/assets/883126/8629278/dc2bb4e0-2727-11e5-8aab-8230adba4056.png" style="max-width:100%;"></a></p>
 
-          <p><img class="emoji" title=":tada:" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png" height="20" width="20" align="absmiddle"> </p>
+          <p><img class="emoji" title=":tada:" alt=":tada:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png"   align="absmiddle"> </p>
 
           <hr>
 
           <p>In review, there is one thing to keep in mind when writing tests that are deterministic, always verify DOM interactions, always assume that the DOM is async, and always assume your CI server is the slowest computer in the world.</p>
 
-          <p>With these things in mind you should be all set to write reliable tests <img class="emoji" title=":palm_tree:" alt=":palm_tree:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f334.png" height="20" width="20" align="absmiddle"> </p>
+          <p>With these things in mind you should be all set to write reliable tests <img class="emoji" title=":palm_tree:" alt=":palm_tree:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f334.png"   align="absmiddle"> </p>
       </div>
       Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
       <hr>
