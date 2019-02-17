@@ -4,10 +4,6 @@ article {
   word-break: break-word;
 }
 
-article img {
-  max-width: 100%;
-}
-
 p {
   line-height: 30px;
 }
