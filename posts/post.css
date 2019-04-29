@@ -9,7 +9,11 @@ article img {
 }
 
 p {
-  line-height: 30px;
+  line-height: 24px;
+}
+
+pre {
+  white-space: pre-wrap;
 }
 
 quote, blockquote {
@@ -18,4 +22,28 @@ quote, blockquote {
   font-size: 21px;
   display: block;
   color: #888;
+}
+
+table {
+  border: solid;
+  padding: 10px;
+  background: #c4d5d67a;
+  border-color: #335252;
+}
+
+table quote {
+  color: unset;
+  padding: 10px;
+}
+
+.table-header {
+  font-weight: bold;
+  border-bottom: solid 1px;
+}
+
+unit {
+  font-family: monospace;
+  background: #f1f1f1;
+  padding: 2px;
+  letter-spacing: 1.4px;
 }

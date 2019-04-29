@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Demystifing the HEX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <style>
+    .chip {
+      display: inline-block;
+      height: 15px;
+      width: 15px;
+      border-radius: 3px;
+      border: solid 1px #DDD;
+      position: relative;
+      top: 3px;
+    }
+    </style>
+    <link rel="stylesheet" href="post.css">
+</head>
+
+<body>
+    <article>
+        <h1 style="cursor: pointer">Demystifing the HEX</h1>
+        <img src="HEX.jpg" width="650px" height="384px" alt="An image of playing cards, boolean symbols, and HEX units to demonstrate the ways data can be represented with different bases."/>
+        <div style="text-align: right; font-size: 12px;">Illustration from <a href="https://www.susielu.com/art" target="_blank">Susie Lu</a></div>
+        <p>
+            Computer programs are composed of 1s and 0s, something is either on or off, everything else is a composition
+            on top of this concept. This is analogous to how the universe is made up of atoms. Just as we do not see
+            atoms, we do not see the binary representation of data. However, we as web developers do in many cases come
+            quite close to working directly with binary numbers without even knowing it! For example, binary numbers are
+            pleasantly obscured in the wonderful concept of CSS HEX colors; Let’s dig in!
+        </p>
+        <p>
+            You may be familiar with a few colors in HEX #FFFFFF <span class="chip" style="background: #fff"></span> is white, #000000 <span class="chip" style="background: #000"></span> is black,</br> #FF0000 <span class="chip" style="background: #FF0000"></span>  is red and so on.
+            While <span style="text-decoration:underline;">yes</span> these are “HEX” colors, what does that even mean?
+            What is HEX? HEX is short for HEXadecimal which is a fancy way to say a a unit that represents 16 possible
+            values; In this case using 0 - 9 on the numeric scale and then A - F on the alphabetical scale to represent
+            16 possible values from [0 - 15].
+        </p>
+        <p>
+            <strong>Scale units:</strong>
+            <unit>0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F</unit>
+            </br>
+            <strong>Value units:</strong>
+            <unit>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15</unit>
+        </p>
+        <p>
+            In CSS HEX colors are used to represent RGB (red, green, and blue) colors in a somewhat terse and
+            understandable way. For HEX colors each pair of HEX units represents one color channel, and each color
+            channel has a possible value from 0 to 255
+        </p>
+        <p>
+            As an example let’s look at the color red #FF0000 <span class="chip" style="background: #FF0000"></span>, which breaks down to </br>
+            <unit>FF</unit> for the red channel with a value of 255 </br>
+            <unit>00</unit> for the blue channel with a value of 0  </br>
+            <unit>00</unit> for the green channel with a value of 0
+        </br>
+        <p>
+            The question arises though how does <unit>FF</unit> equal 255? As we said earlier a single HEX value represents a number from 0 - 15 but what happens when you combine multiple of these HEX characters together?
+        </p>
+        <p>
+            To start let’s look at a more familiar non-HEX number <unit>253</unit> and show how we can break it up into the digits
+            [2,5,3] and turn it back into the number <unit>253</unit>.
+        </p>
+        <p>
+            The algorithm can be described as
+        </p>
+        <ol>
+            <li>take the first $digit (least significant value) <unit>3</unit> [2,5,<strong><span
+                        style="text-decoration:underline;">3</span></strong>],
+
+            <li>look at the right based $index of the digit in the sequence which would be <unit>0</unit> for <unit>3</unit>
+
+            <li>Raise the base / radix to the power of $index and then multiply that by the $digit.
+            </li>
+        </ol>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td class="table-header">
+                        Hold up a moment, what is this base / radix thing?
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <quote>
+                            In mathematics, a base or radix is the number of different digits or combination of digits
+                            and
+                            letters that a system of counting uses to represent numbers. For example, the most common
+                            base
+                            used today is the decimal system, base = 10. <a
+                                href="https://simple.wikipedia.org/wiki/Base_(mathematics)" target="_blank">(source)</a>
+                        </quote>
+                        Looking at our HEX example, we can see how HEXadecimal numbers are base 16 and thus can
+                        represent 16 possible values via (0 -> F) within a single digit. </br>Humans typically
+                        work in base 10 (0 -> 9) and Robots 🤖 like to operate in base 2 (0 -> 1). </br>
+                        It makes you wonder <a href="http://mathforum.org/library/drmath/view/60680.html"
+                            target="_blank">if humans had 12 fingers if we would count in base 12?</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            In the case of <unit>253</unit>, we are showing a number with a base of 10. The 3 represents the ones place, the 5
+            represents the 10s place, and the 2 represents the 100s place. So (3 * 1) + (5 * 10) + (2 * 100) gives us 253.
+        <p>
+            We can then generalize this math a bit into code like this:
+        </p>
+        <pre>
+            <code>
+function toNumber(digits = [2,5,3], base = 10) {
+    let sum = 0;
+    for (let i = 0; i < digits.length; i++) { 
+        // walk the digits in reverse order
+        // 3 … 5 … 2
+        // multiple each unit by base to the exponent power
+        // digit 2, index of 0 … 10^ 0 === 1
+        // digit 5, index of 1 … 10 ^ 1 === 10
+        // digit 3, index of 2 … 10 ^ 2 === 100
+        sum += digits[digits.length - (i + 1)] * ((Math.pow(base, i)));
+    }
+    return sum;
+}
+        </code>
+        </pre>
+        <p>
+            We can apply this same working methodology to convert #FD0000 <span class="chip" style="background: #FD0000"></span> which has a base of 16 to the base 10 number
+            of 253.
+            <pre>
+[F, D]
+(D(13) * 16^0 +
+F(15) * 16^1) === 253
+            </pre>
+        </p>
+        <p>
+            All of which to say a two-digit HEX encoding of color space gives us 256 possible values for each red,
+            green, and blue channel yielding a color permutation space of 167772156 colors!</br>
+            Using this new found information we can apply it to generate random colors via a script like this:
+        </p>
+        <pre><code>// Math.random generates a number from 0 -> 1
+const color = ‘#’ + Math.floor((Math.random() * 16777215)).toString(16);</code></pre>
+        Which would give us a value like: <span id="rand-color-text">#FFAE12</span> <span class="chip" style="background: #FFAE12" id="rand-color"></span>
+        <button onclick="randomColor()">Random!</button>
+        <p></p>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="table-header">
+                       toString on a number? 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        The <unit>.toString(16)</unit> call after the number might be a bit confusing as it is a non-standard API
+                        for most folks. The <unit>toString</unit> API when called on a number takes an optional argument to set the
+                        the base explicitly which is quite useful in the case of taking a base 10 number and converting
+                        it to base 16 HEX representation.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            I hope that the next time you encounter a HEX string when changing the background color of a div, or the text on the page that you now feel comfortable explaining what this series of base-16 digits represents 🤓.
+        </p>
+        <hr>
+        Thanks so much to <a href="https://fabiancanas.com/">Fabián Cañas </a>and <a
+            href="https://www.susielu.com/">Susie Lu</a> for reviewing this post.
+    </br>
+    </br>
+        Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
+        <hr>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-100642-4');
+        </script>
+        <script>
+            function randomColor() {
+                const t = document.querySelector('#rand-color');
+                const text = document.querySelector('#rand-color-text');
+                const color = '#' + Math.floor((Math.random() * 16777215)).toString(16);
+                text.textContent = color;
+                t.style.backgroundColor = color;
+            }
+            document.querySelector('h1').addEventListener('click', (e) => {
+                const t = "Demystifing the HEX";
+                if (e.target.textContent === t) {
+                    const encoder = new TextEncoder()
+                    const arr = encoder.encode(e.target.textContent);
+                    e.target.textContent = arr;
+                } else {
+                    e.target.textContent = t;
+                }
+            });
+            randomColor();
+        </script>
+    </article>
+</body>
+
+</html>
