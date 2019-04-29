@@ -136,11 +136,11 @@ F(15) * 16^1) === 253
         </p>
         <p>
             All of which to say a two-digit HEX encoding of color space gives us 256 possible values for each red,
-            green, and blue channel yielding a color permutation space of 167772156 colors!</br>
+            green, and blue channel yielding a color permutation space of 16777216 colors!</br>
             Using this new found information we can apply it to generate random colors via a script like this:
         </p>
         <pre><code>// Math.random generates a number from 0 -> 1
-const color = ‘#’ + Math.floor((Math.random() * 16777215)).toString(16);</code></pre>
+const color = ‘#’ + Math.floor((Math.random() * 16777216)).toString(16);</code></pre>
         Which would give us a value like: <span id="rand-color-text">#FFAE12</span> <span class="chip" style="background: #FFAE12" id="rand-color"></span>
         <button onclick="randomColor()">Random!</button>
         <p></p>
@@ -153,7 +153,7 @@ const color = ‘#’ + Math.floor((Math.random() * 16777215)).toString(16);</co
                 </tr>
                 <tr>
                     <td>
-                        The <unit>.toString(16)</unit> call after the number might be a bit confusing as it is a non-standard API
+                        The <unit>.toString(16)</unit> call after the number might be a bit confusing as it is an uncommon API
                         for most folks. The <unit>toString</unit> API when called on a number takes an optional argument to set the
                         the base explicitly which is quite useful in the case of taking a base 10 number and converting
                         it to base 16 HEX representation.
@@ -183,7 +183,7 @@ const color = ‘#’ + Math.floor((Math.random() * 16777215)).toString(16);</co
             function randomColor() {
                 const t = document.querySelector('#rand-color');
                 const text = document.querySelector('#rand-color-text');
-                const color = '#' + Math.floor((Math.random() * 16777215)).toString(16);
+                const color = '#' + Math.floor((Math.random() * 16777216)).toString(16);
                 text.textContent = color;
                 t.style.backgroundColor = color;
             }
