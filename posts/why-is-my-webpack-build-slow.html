@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Why is my webpack build slow?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <style>
+    </style>
+    <link rel="stylesheet" href="post.css">
+</head>
+
+<body>
+    <article>
+        <h1>Why is my webpack build slow?</h1>
+        <p>
+            For many of us, qebpack is the bottleneck between when we write our code and when we see its side-effects;
+            This is the developer critical path that we feel every single save.
+        </p>
+        <p>
+            The trope of “my webpack build is slow” is well worn into the ethos of modern web development; This does
+            however
+            not lay blame at the feet of any single tool, but rather is a measure of the systemic acceptance and use of
+            webpack for building web applications. To be clear we are not talking about your JS bundle runtime
+            performance
+            but rather the time that it takes to generate that runtime bundle.<br>
+        </p>
+        <p>
+            The first step to understanding any system is to measure it, and in order to make something faster we must
+            look
+            at where time is being spent. Luckily when it comes to Node.js we have a cadre of tools to help us profile
+            and
+            understand where time is going for any process. Finding said tools however is a journey strangely
+            intervolven
+            with a smattering of abandoned tooling from multiple-attempts by multiple companies trying to enter the
+            enterprise Node space. I am going to skip all of this noise and cut out all of the stackoverflow and gist
+            sleuthing and jump right into your options:
+        </p>
+        <h3>Approach 1: Using the built in webpack plugin profiler (webpack 4+)</h3>
+        <p>
+            <code>
+                <pre>
+webpack --plugin webpack/lib/debug/ProfilingPlugin
+                </pre>
+            </code>
+        </p>
+        Then load events.json into chrome devtools:
+        <p>
+          <img src="webpack_slow1.jpg" style="min-height: 290px;" width="" alt="Chrome devtools performance waterfall">
+        </p>
+        <strong>Pros</strong>:
+        <ul>
+            <li>Each webpack plugin is annotated in the timings section of the profile, making it easier for you to
+                associate CPU timing with semantic category.
+            </li>
+        </ul>
+        <strong>Cons</strong>:
+        <ul>
+            <li>If your webpack build takes a very long time you can generate trace files that will crash chrome
+                devtools.
+                The node process may OOM<sup>1</sup> during recording, as well.
+
+            <li>The profiling plugin adds overhead, which skews the results. In particular, the function-level
+                instrumentation makes code with quick, but heavily-run functions, take a bit longer.
+            </li>
+        </ul>
+        <h3>Approach 2: Using node’s --prof and --prof-process tooling </h3>
+        <p>
+        <code>
+            <pre>
+node --prof node_modules/.bin/webpack-cli --mode development --config webpack.dev.js
+            </pre>
+            <pre>
+node --prof-process isolate-$ID_HERE-v8.log > processed.txt
+            </pre>
+        </code>
+        </p>
+        <p>
+            You can read more about this here: <a
+                href="https://nodejs.org/en/docs/guides/simple-profiling/">https://nodejs.org/en/docs/guides/simple-profiling/</a>
+        </p>
+        <p>
+            It is possible to render the v8 log file further to create a flamechart via
+        </p>
+        <code>
+            <pre>
+npx pflames isolate-$ID_HERE-v8.log
+            </pre>
+        </code>
+        <p>
+          <img src="webpack_slow2.jpg" style="min-height: 420px;" width="" alt="Classic performance flamechart diagram">
+        </p>
+        <strong>Pros</strong>:
+        <ul>
+
+            <li>Side-stepped all userland code and profiles at a V8 level
+            <li>Exposes C++ binding overhead as well
+            <li>Can handle very long running processes without running out of memory
+            </li>
+        </ul>
+        <strong>Cons:</strong>
+        <ul>
+            <li>Limited visibility into the entire process with report
+            <li>No UI to explore the process with
+            </li>
+        </ul>
+        <h3>Approach 3: Using devtools + --inspect</h3>
+        <code>
+            <pre>
+node --inspect-brk node_modules/.bin/webpack-cli --mode development --config webpack.dev.js
+            </pre>
+        </code>
+        <p>
+        </p>
+        <p>
+          <img src="webpack_slow3.jpg" style="min-height: 191px;" width="" alt="Chrome devtools with node.js debugger icon">
+        </p>
+        <p>
+            Then save the CPU profile and then load the CPU profile back into chrome devtools.
+        </p>
+        <p>
+          <img src="webpack_slow4.jpg" style="min-height: 134px;" width="" alt="Chrome devtools CPU profile">
+          <img src="webpack_slow5.jpg" style="min-height: 248px" width="" alt="Chrome devtools waterfall diagram">
+        </p>
+        <strong>Pros</strong>:
+        <ul>
+
+            <li>Exposes memory / heap information during the profiling making it possible for you to understand your
+                compilation memory overhead.
+            </li>
+        </ul>
+        <strong>Cons</strong>:
+        <ul>
+            <li>Long running traces easily exhaust / crash chrome process
+            <li>Tooling feels fragile (as measured through user facing latency of taking the profile)
+            </li>
+        </ul>
+        <h3>In Summary:</h3>
+        <p>
+            What approach is best for you? Well it depends on your needs and the size of your build. My recommendation
+            is to
+            attempt approach one since it provides the most human readable version of your build and only to drop into
+            the
+            other approaches if you are otherwise unable to get approach one working.
+            Special thanks to <a href="https://twitter.com/paul_irish" target="_blank">Paul Irish</a> for reviewing and assisting in the generation of this document.
+        </p>
+        </br>
+        Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
+        <hr>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+            1 - It's possible for large webpack builds to encounter out of memory errors during recording with the
+            ProfilingPlugin. When this happens you can first attempt to raise the memory ceiling for the node process
+            via
+            the --max-old-space-size= flag. If this still does not work we can fall back to a more involved solution:
+            The
+            webpack profile plugin implementation waits until the compile is complete to flush out to a file <a
+                href="https://github.com/webpack/webpack/blob/master/lib/debug/ProfilingPlugin.js#L203">https://github.com/webpack/webpack/blob/master/lib/debug/ProfilingPlugin.js#L203</a>,
+            it is however possible to change this implementation to incrementally flush the results out to a file every
+            N
+            duration… This implementation is something that I will leave up to the reader, but this is open source
+            software
+            so PRs are welcome :)
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-100642-4');
+        </script>
+    </article>
+</body>
+</html>

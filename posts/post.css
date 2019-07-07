@@ -9,11 +9,12 @@ article img {
 }
 
 p {
-  line-height: 24px;
+  line-height: 21px;
 }
 
 pre {
   white-space: pre-wrap;
+  user-select: all;
 }
 
 quote, blockquote {
