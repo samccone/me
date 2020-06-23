@@ -1,0 +1,7 @@
+Compress HTML and inline and compress CSS for html files
+
+    ./main file.html > new_file.html
+
+Inline file modification
+
+    ./main -inline file.html
