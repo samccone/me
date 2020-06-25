@@ -1,9 +1,15 @@
+github.com/ericchiang/css v0.0.0-20171210184639-f08e94f04ef6 h1:HeKWnXUG9uJDbO57rL40XbvyOvc5uw24UiUes5dH3c8=
+github.com/ericchiang/css v0.0.0-20171210184639-f08e94f04ef6/go.mod h1:zgaNzbznQZutyCLXMVn7qSY04QyFUQyqBBV0kbc4Uqo=
+github.com/samccone/css v0.0.0-20200625202919-8a54e79c4a49 h1:HQh2FX8L887rk9ftYOTE0To2Vv31hamYOBgE+ZQtgro=
+github.com/samccone/css v0.0.0-20200625202919-8a54e79c4a49/go.mod h1:UT2/7txIn0dVc1YzH4zSm1yO5Dgv3In2bMPpfQIvBqY=
 github.com/tdewolff/minify v1.1.0 h1:nxHQi1ML+g3ZbZHffiZ6eC7vMqNvSRfX3KB5Y5y/kfw=
 github.com/tdewolff/minify v2.3.6+incompatible h1:2hw5/9ZvxhWLvBUnHE06gElGYz+Jv9R4Eys0XUzItYo=
 github.com/tdewolff/minify v2.3.6+incompatible/go.mod h1:9Ov578KJUmAWpS6NeZwRZyT56Uf6o3Mcz9CEsg8USYs=
 github.com/tdewolff/parse v1.1.0 h1:tMjj9GCK8zzwjWyxdZ4pabzdWO1VG+G3bvCnG6aUIyQ=
 github.com/tdewolff/parse v2.3.4+incompatible h1:x05/cnGwIMf4ceLuDMBOdQ1qGniMoxpP46ghf0Qzh38=
 github.com/tdewolff/parse v2.3.4+incompatible/go.mod h1:8oBwCsVmUkgHO8M5iCzSIDtpzXOT0WXX9cWhz+bIzJQ=
+github.com/tdewolff/parse/v2 v2.4.3 h1:k24zHgTRGm7LkvbTEreuavyZTf0k8a/lIenggv62OiU=
+github.com/tdewolff/parse/v2 v2.4.3/go.mod h1:WzaJpRSbwq++EIQHYIRTpbYKNA3gn9it1Ik++q4zyho=
 github.com/tdewolff/test v1.0.6 h1:76mzYJQ83Op284kMT+63iCNCI7NEERsIN8dLM+RiKr4=
 github.com/tdewolff/test v1.0.6/go.mod h1:6DAvZliBAAnD7rhVgwaM7DE5/d9NMOAJ09SqYqeK4QE=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
