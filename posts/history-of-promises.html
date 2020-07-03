@@ -1,0 +1,642 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>The history of Promises</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="post.css">
+    <style>
+        img {
+            border: solid 1px #ccc;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .image {
+            max-width: 720px;
+            max-height: 405px;
+            position: relative;
+            padding-bottom: 58.334%;
+            ;
+        }
+
+        .image-container {
+            max-width: 720px;
+            max-height: 405px
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <h1>A Brief history of promises</h1>
+        <b>I Promise.</b>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img src="history-of-promises-assets/slide-2.jpg" />
+            </div>
+        </div>
+        Promises are older than you think, they originate from
+        an idea born during the start of the <a target="_blank" href="https://en.wikipedia.org/wiki/Space_Race">space
+            race</a>. I want to tell you a story of
+        how a concept from the 1960s made its way into your JS runtime.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img src="history-of-promises-assets/slide-3.jpg" />
+            </div>
+        </div>
+        <p>Before we begin It is important that we distinguish and establish the difference
+            and the idea of what a sync action is and what an async action is. Now we could
+            talk about code and implementation details however I find an analogy to be best
+            suited for this task.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img src="history-of-promises-assets/slide-4.jpg" />
+            </div>
+        </div>
+        <p>If right now you frame the world and everything that we do as us interacting
+            with an asynchronous entity the distinction becomes easier to reason about.
+            Picture yourself driving a car down the road, you are listening to the radio,
+            while staying in your lane, and carrying on a conversation with the passenger
+            next to you. Now you feel the urge to sneeze, and as we all know sneezing is the
+            last thing you want to be doing when you are driving. Try as you might you can
+            not stop yourself from sneezing, and there you go you sneeze and you close your
+            eyes. Everything else you are doing at that moment does not &quot;Stop&quot; it continues
+            on but you are stuck in the sneezing state, frozen, eyes shut, driving at 65
+            miles per hour.</p>
+        <p>Sneezing is what I would call a synchronous real world action, when you are
+            sneezing nothing else matters because THAT IS ALL YOU ARE DOING.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-5.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-5.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Let me illustrate the point in code. Here you can see we print hello, sleep for a while and then print
+            by. While we are asleep nothing else is going on in the program, it is just
+            sitting there, waiting doing nothing else. When the process completes we continue on with our
+            program. <strong>The Important thing</strong> to takeaway here is the fact that while we are
+            asleep, <strong>NOTHING</strong> is happening, <strong>Nothing can happen at all</strong> given this
+            paradigm. This is an important concept to keep in mind as we wander onto this
+            winding and murky async history path.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-6.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-6.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Opening our browser console today and typing Promise, we are greeted by a
+            Promise constructor. We can resolve this promise with our friend the horse, and
+            we can reject a promise with some fire. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-7.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-7.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>And no this is not just nightly chrome, this is a very very well supported API,
+            that you can use today without polyfills and without vendor scripts in both the
+            browser and in node. </p>
+        <p>So you are thinking of course Sam, tell me something I do not already know jesh.
+            But I want to point out that being able to use this API is not the novel thing,
+            the novel thing is asking yourself <em>Why can I do this today.</em><br>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-8.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-8.jpg" />
+                </noscript>
+            </div>
+        </div>
+        </p>
+        <p>How did these 7 letters when joined together so precariously yield such a useful
+            and power thing? </p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-9.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-9.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>which as you know was one of the biggest shifts javascript development since Brendan Eich wrote the
+            initial implementation of javascript. In his presentation at jsconf, this early version version of node had
+            Promises… well &quot;Promises&quot;.. Of course I wanted to find out exactly what this implementation looked
+            like so I cloned the node js repo to take a look at the logs (FAIR WARNING this repo is kinda big and took
+            30 minutes :( so I do not really recommend that you do it.)</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-10.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-10.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Looking at the repo we can see that in june 2009 the initial commit was landed
+            for Promises… going one step further and seeing how it was implemented .</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-11.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-11.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Wait though… this is not a promise implementation, this is just an event emitter
+            wrapped up in a promise like interface. But what was the intent and where did
+            this idea come from?</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-12.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-12.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>What is the lineage of this idea of a promise.</p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-13.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-13.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>
+            pretty tricky, however through the extensive use of wayback machine, emails, and personal interviews I was
+            able to piece together a reasonable path from the early origins of Promises to the es2015 spec. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-14.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-14.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>To set the scene, this tale of the promises starts in 1961. In 1961 NASA was
+            busy with the mercury space program, racing into space to catch up to Russia
+            after their somewhat surprise launch of Sputnik 1. <a
+                href="https://en.wikipedia.org/wiki/Ham_(chimpanzee">Ham
+                the
+                chimp</a>) had just returned from
+            space, and was on the cover of LIFE after a successful trip into space.</p>
+        <p>Ok… enough with Ham the chimp back to Promises we go..<br>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-15.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-15.jpg" />
+                </noscript>
+            </div>
+        </div><br>In 61 along comes a paper written about Algol - short for algorithmic language
+        published in ACM. Describing a method of compiling procedural statements. Not to
+        bore you with the details because I know everyone in the room here is super
+        familiar with agol already, but the important concept discussed in this paper
+        comes down to this idea of a &quot;Thunk&quot;</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-16.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-16.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>A thunk is a compile time optimization that simply put provides an address that
+            when executed will eventually contain a given value in some standard location
+            (or the address). Now why is this important and what does this mean. This
+            &quot;thunk&quot; thing is the concept that a value reference will eventually be stored in
+            a given location at some time in the future. This should sound somewhat familiar
+            to the basic idea of a promise -- or rather a value that will eventually
+            represent some value in the future. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-17.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-17.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>If we hop into the delorean and fast forward to 1977, The first star wars had
+            just been released and an equally important concept was introduced. <a
+                href="https://web.archive.org/web/20150501065726/http://home.pipeline.com/~hbaker1/Futures.html">A
+                paper</a>
+            outlining the concept of a future was published. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-18.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-18.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>While this paper was about approaches for dealing with garbage collection, it
+            has a few novel ideas that drove inspiration for future iterations on the
+            concept of eventual values, and remote execution of functions. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-19.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-19.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>In the paper abstract right away the author throws out this concept of a
+            parallel evaluation of arguments to a function. This idea in the javascript
+            world is nothing new this actually feels like a pretty recognizable concept. We
+            want to eval multiple things at the same time and in parallel. Much like a
+            webworker allows us to do… But the thing is this is in 1977, not 2016.<br>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-20.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-20.jpg" />
+                </noscript>
+            </div>
+        </div>
+        </p>
+        <p>The paper goes further and outlines the approach of taking each of the params
+            and binding them to a separate process. Here in lies the essential concept, as
+            soon as we allow individual params to be handled by different processes there is
+            nothing holding back the evaluation and running of each of params values&quot; in
+            parallel and in a way that does not block each other. Now if you are at all like
+            me you are thinking why do I care about params, those are just values… however
+            if you shift your perception of values to something different -- &quot;think of
+            params here as not just flat values but potentially other functions and other
+            &quot;eventual&quot; values. </p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-21.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-21.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>intended to be a new model for building distributed systems. The entire model was that of a making
+            building distributed systems simple. Every action in joule consists of sending and receiving messages from
+            servers. A channel is the abstraction or message plumbing through which the messages are conveyed. It is in
+            this way that Joule set the stage, for a formal message pattern. This idea of a middleman or relay entity
+            that was responsible for delegating async communication instead of just an event based pattern meant that
+            the data and the flow of the data is predictable and allows you to treat these async entities as just
+            another pattern for passing data around, even though they under the hood are async.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-22.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-22.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>The culmination of this these ideas and the true watershed moment where you can
+            draw all (or at least the majority) of Future/Promise implementations from is in
+            E. While E introduced many concepts we will only look a specific subset of the
+            language; the Promise implementation. E was the first implementation of promises
+            that was truly non-blocking, in that the work that was being done &quot;Remotely&quot;
+            would never block the future execution.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-23.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-23.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>The next was the lexicon that E established. This diagram with a few minor
+            wording adjustments would be 1:1 to what javascript promises are today. This
+            diagram comes from the original E language paper and description by Mark Miller.
+            If you note in this diagram it treats local promises and remote promises as the
+            same thing, just as joule treated all messages as &quot;channels&quot; and futures were
+            potentially going to enable the fully parallel execution across multiple
+            processes E builds on this and treats this idea of a Promise as agnostic to
+            where the work is actually being done. Another note about this original design
+            diagram was the term that was used for a promise when it was in a failed state
+            was &quot;broken&quot; … this term while fine in other languages would not work in
+            javascript… why not? &quot;broken&quot; =&gt; break … break is a reserved work in JS
+            though… so this was changed to .catch() instead.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-25.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-25.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Python&#39;s Twisted framework directly derived their future/deferred implementation
+            From the E language. This implementation while not capturing the entire idea of
+            E&#39;s promises brought along enough of the concepts to be the seed from which the
+            JS implementations grew.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-26.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-26.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>From this point forward we will be following the JS track of the story - it is
+            important to note however that the implementation path in other languages was
+            running in parallel in in some ways was more &quot;correct&quot; during this time period. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-27.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-27.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>The first implementation in JS that I could find that followed the ethos of E
+            promises was found in
+            <a target="_blank" href="https://web.archive.org/web/20140404201229/http://www.mochibot.com/">MochiKit</a>.
+            MochiKit (extracted from MochiBot) by Bob, was a direct port from Twisted. When
+            I reached out to Bob asking where he got the idea for this implementation he
+            noted that he directly ported the implementation from Python&#39;s twisted lib.</p>
+        <p>What I find so perfect about our communication is the rationale for why he
+            ported this functionality (since it really has stood the test of time)</p>
+        <p>
+            <quote> MochiBot used a lot of AJAX style calls and Deferred made that much easier
+                to work with than directing using XMLHTTPREQUEST</quote>
+        </p>
+        <p>And as he pointed out…</p>
+        <p>
+            <quote> It can&#39;t have been that bad of an idea since today&#39;s fetch API provides a
+                HTTP interface that returns a promise.</quote>
+        </p>
+        <p>Keep in mind this was in 2005… this async problem that to this day is
+            troublesome was being felt and dealt with before I even started seriously
+            programming. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-28.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-28.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>In
+            <a
+                href="https://github.com/mochi/mochikit/commit/fd638aacdf062e0ff424a02248ef7456b8c5311e#diff-391bd7b533356bb0ed11bf5281ed3011R62">2006</a>
+            (or perhaps earlier since I think the commit date is lying about the date due to
+            the bulk import from SVN) dojo checked in a dojo deferredRequest. So I guess in
+            this case dojo did not do it first ;)... But they did do it quite early. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-29.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-29.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Further searching of the underbelly of the internet yielded some interesting
+            finds in dojo land. In 2007 Alex Russell
+            <a
+                href="https://github.com/dojo/dojo/commit/2e82010b8ff5a2493bc1fd0991a89492e426d61b#diff-81a2b6cf414b75fe76524c2902a90d7a">decoupled</a>
+            the Deferred idea from the
+            <a
+                href="https://bugs.dojotoolkit.org/browser/legacy/trunk/src/rpc/DeferredRequest.js?rev=2607">deferredRequest</a>.
+            In a <a target="_blank" href="http://thread.gmane.org/gmane.comp.web.dojo.devel/841/focus=843:">listserve
+                post</a> from
+            2006 Alex also mentioned the inspiration for the deferred request as coming from
+            mochikit and python&#39;s twisted implementation.</p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-30.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-30.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>The moment where promise adoption to surged going from niche to mainstream. While <a target="_blank"
+                href="https://github.com/kriskowal/q">Q</a> may be somewhat familiar to you there was an
+            earlier version called <a target="_blank" href="http://waterken.sourceforge.net/web_send/#API">Waterken
+                Q</a> that has a lot of syntax
+            familiarity with newer libs like (modern Q and when.js) .. This syntax should
+            seem very familiar. This waterken Q implementation self identified to be a
+            &quot;concise and expressive API for interacting with JSON resource&quot; </p>
+
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-31.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-31.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p><a target="_blank" href="https://groups.google.com/forum/#!topic/commonjs/6T9z75fohDk"> Kris Zyp
+                proposed</a>
+            </a>adding Promises
+            as an official API inside of the commonjs mailing this. To many this was the
+            start of Promises landing in the spec. In his post he notes the influences of
+            waterken Q.</p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-32.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-32.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>
+            In <a target="_blank"
+                href="https://github.com/kriskowal/q/commit/9191ce4c803cc3f8a01fb6c3a428ac57c9a83d3f">September of
+                2009</a>
+            Kris Kowal (also on the Promise API thread) took the ideas of waterken Q along with the design and goals of
+            E to
+            create the popular Q lib.
+        </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-34.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-34.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>
+
+            Dojo almost at the same time (separated by 8 days) and
+            <a href="http://mail.dojotoolkit.org/pipermail/dojo-contributors/2009-September/021017.html">
+                began the
+                conversation</a>
+            to go from the idea of a deferred to the idea of a Promise. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-35.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-35.jpg" />
+                </noscript>
+            </div>
+        </div>>In <a target="_blank"
+            href="https://github.com/gibson042/jquery/commit/5bacb53866dbc3fbb36202a25c756a4ea2fd5965">December of
+            2010</a> deferreds landed inside of jquery core, but were not yet exposed externally as
+        an API. The promise interface was eventually exposed in a format that anyone
+        programming javascript most likely has burned into their memory $.ajax<br>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-36.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-36.jpg" />
+                </noscript>
+            </div>
+        </div>
+        </p>
+        <p>This simple API single handedly papered over the friction of
+            <a target="_blank"
+                href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a>,
+            oh and at the same time introduced the concept of &quot;eventual resolution&quot; as a
+            happy side-effect. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-37.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-37.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Keep in mind during this time the web was rapidly moving forward, HTML5 was
+            coming and more and more new web APIs were shipping Webcypto, fetch, indexdb,
+            localstorage, each of these APIs had to figure out what to do regarding
+            asynchronous actions, some opted to use promise like interfaces, others
+            callbacks, and some event emitters, this disconnect became especially
+            complicated when you added in different promise implementations into the mix,
+            things simply do not just work.</p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-38.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-38.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>The promises spec was simple but the lack of a unified test suite was making
+            different implementations not work together. <a target="_blank" href="https://github.com/tchak">Paul
+                Chavard</a> lead the way with the idea of introducing a
+            test suite for Promise contract fulfillment. Paul created a pull request to
+            <a target="_blank" href="https://github.com/emberjs/ember.js/pull/1406">Ember</a> to introduce a Promise
+            test suite. </p>
+        <p>Domenic Denicola recognizing the shortcomings of the implementation went ahead
+            and the day that the Ember Pr landed created the A+ promise doc and test suite.
+            (hear him tell the story
+            <a target="_blank" href="https://www.youtube.com/watch?v=V2Q13hzTGmA&amp;app=desktop">here</a>)<br>
+
+        </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-39.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-39.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-41.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-41.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>This test suite and spec lead to 50+ compatible Promise implementation, which
+            was a massive win for the community because it meant that you did not have to
+            worry about different async / deferred / promise implementations. So long as the
+            implementation was A+ you know that they would be compat at the .then level. The
+            meta win here was the fact that having multiple agreeing implementations showed
+            tc39 that there was community consensus around Promises… an idea that a few
+            years earlier was thought to be too esoteric for common use. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-42.jpg" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-42.jpg" />
+                </noscript>
+            </div>
+        </div>
+        <p>Because of the community buy in and eventual need for other async operations (in
+            es6 (at the time) now es2015 -- like module loading which was supposed to land
+            in es2015) Promises were fast tracked and landed -- with much thanks to Domenic
+            Denicola </p>
+        <p>So here we are in 2020 using an API that is the composite of ideas and work
+            starting in 1961, spanning multiple languages, and multiple generations.</p>
+        <hr>
+        Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
+        <hr>
+    </article>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-100642-4');
+
+        (function () {
+            if (typeof IntersectionObserver === "undefined") {
+                return;
+            }
+
+            const observer = new IntersectionObserver(e => onHit(e, observer), {
+                rootMargin: '0px',
+                threshold: 0
+            });
+
+            for (const img of document.querySelectorAll('img[lazyimg]')) {
+                observer.observe(img);
+            }
+
+            /**
+             * @param {IntersectionObserverEntry[]} entries 
+             * @param {IntersectionObserver} observer
+             */
+            function onHit(entries, observer) {
+                for (const e of entries) {
+                    if (e.isIntersecting) {
+                        observer.unobserve(e.target);
+                        e.target.setAttribute('src', e.target.getAttribute('lazyimg'));
+                        e.target.removeAttribute('lazyimg');
+                    }
+                }
+            }
+
+        })()
+
+    </script>
+
+</body>
