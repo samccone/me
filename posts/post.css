@@ -48,13 +48,3 @@ unit {
   padding: 2px;
   letter-spacing: 1.4px;
 }
-
-@media (prefers-color-scheme: dark){
-  body {
-    background:#1f1f1f;
-    color:#fff
-  }
-  a, a:visited {
-    color:#74abff;
-  }
-}
