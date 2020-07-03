@@ -551,122 +551,120 @@
                 began the
                 conversation</a>
             to go from the idea of a deferred to the idea of a Promise. </p>
-        <p>
         <div class="image-container">
             <div class="image">
                 <img lazyimg="history-of-promises-assets/slide-35.jpg" alt="the rise of JQuery 2010" />
                 <noscript>
-                    <img src="history-of-promises-assets/slide-35.jpg" alt="the rise of JQuery 2010/>
+                    <img src="history-of-promises-assets/slide-35.jpg" alt="the rise of JQuery 2010" />
                 </noscript>
             </div>
-        </div>>In <a target=" _blank"
-                        href="https://github.com/gibson042/jquery/commit/5bacb53866dbc3fbb36202a25c756a4ea2fd5965">December
-                    of
-                    2010</a> deferreds landed inside of jquery core, but were not yet exposed externally as
-                    an API. The promise interface was eventually exposed in a format that anyone
-                    programming javascript most likely has burned into their memory $.ajax<br>
-                    <div class="image-container">
-                        <div class="image">
-                            <img lazyimg="history-of-promises-assets/slide-36.jpg"
-                                alt="github commit adding promises to jquery core 2010" />
-                            <noscript>
-                                <img src="history-of-promises-assets/slide-36.jpg"
-                                    alt="github commit adding promises to jquery core 2010" />
-                            </noscript>
-                        </div>
-                    </div>
-                    </p>
-                    <p>This simple API single handedly papered over the friction of
-                        <a target="_blank"
-                            href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a>,
-                        oh and at the same time introduced the concept of &quot;eventual resolution&quot; as a
-                        happy side-effect. </p>
-                    <p>
-                        <div class="image-container">
-                            <div class="image">
-                                <img lazyimg="history-of-promises-assets/slide-37.jpg" alt="$.ajax().done()" />
-                                <noscript>
-                                    <img src="history-of-promises-assets/slide-37.jpg" alt="$.ajax().done()" />
-                                </noscript>
-                            </div>
-                        </div>
-                        <p>Keep in mind during this time the web was rapidly moving forward, HTML5 was
-                            coming and more and more new web APIs were shipping Webcypto, fetch, indexdb,
-                            localstorage, each of these APIs had to figure out what to do regarding
-                            asynchronous actions, some opted to use promise like interfaces, others
-                            callbacks, and some event emitters, this disconnect became especially
-                            complicated when you added in different promise implementations into the mix,
-                            things simply do not just work.</p>
-                        <div class="image-container">
-                            <div class="image">
-                                <img lazyimg="history-of-promises-assets/slide-38.jpg" alt="briar patch of apis" />
-                                <noscript>
-                                    <img src="history-of-promises-assets/slide-38.jpg" alt="briar patch of apis" />
-                                </noscript>
-                            </div>
-                        </div>
-                        <p>The promises spec was simple but the lack of a unified test suite was making
-                            different implementations not work together. <a target="_blank"
-                                href="https://github.com/tchak">Paul
-                                Chavard</a> lead the way with the idea of introducing a
-                            test suite for Promise contract fulfillment. Paul created a pull request to
-                            <a target="_blank" href="https://github.com/emberjs/ember.js/pull/1406">Ember</a> to
-                            introduce a Promise
-                            test suite. </p>
-                        <p>Domenic Denicola recognizing the shortcomings of the implementation went ahead
-                            and the day that the Ember Pr landed created the A+ promise doc and test suite.
-                            (hear him tell the story
-                            <a target="_blank"
-                                href="https://www.youtube.com/watch?v=V2Q13hzTGmA&amp;app=desktop">here</a>)<br>
+        </div>
+        <p>
+            In <a target=" _blank"
+                href="https://github.com/gibson042/jquery/commit/5bacb53866dbc3fbb36202a25c756a4ea2fd5965">December
+                of
+                2010</a> deferreds landed inside of jquery core, but were not yet exposed externally as
+            an API. The promise interface was eventually exposed in a format that anyone
+            programming javascript most likely has burned into their memory $.ajax<br>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-36.jpg"
+                    alt="github commit adding promises to jquery core 2010" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-36.jpg"
+                        alt="github commit adding promises to jquery core 2010" />
+                </noscript>
+            </div>
+        </div>
+        </p>
+        <p>This simple API single handedly papered over the friction of
+            <a target="_blank"
+                href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a>,
+            oh and at the same time introduced the concept of &quot;eventual resolution&quot; as a
+            happy side-effect. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-37.jpg" alt="$.ajax().done()" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-37.jpg" alt="$.ajax().done()" />
+                </noscript>
+            </div>
+        </div>
+        <p>Keep in mind during this time the web was rapidly moving forward, HTML5 was
+            coming and more and more new web APIs were shipping Webcypto, fetch, indexdb,
+            localstorage, each of these APIs had to figure out what to do regarding
+            asynchronous actions, some opted to use promise like interfaces, others
+            callbacks, and some event emitters, this disconnect became especially
+            complicated when you added in different promise implementations into the mix,
+            things simply do not just work.</p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-38.jpg" alt="briar patch of apis" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-38.jpg" alt="briar patch of apis" />
+                </noscript>
+            </div>
+        </div>
+        <p>The promises spec was simple but the lack of a unified test suite was making
+            different implementations not work together. <a target="_blank" href="https://github.com/tchak">Paul
+                Chavard</a> lead the way with the idea of introducing a
+            test suite for Promise contract fulfillment. Paul created a pull request to
+            <a target="_blank" href="https://github.com/emberjs/ember.js/pull/1406">Ember</a> to
+            introduce a Promise
+            test suite. </p>
+        <p>Domenic Denicola recognizing the shortcomings of the implementation went ahead
+            and the day that the Ember Pr landed created the A+ promise doc and test suite.
+            (hear him tell the story
+            <a target="_blank" href="https://www.youtube.com/watch?v=V2Q13hzTGmA&amp;app=desktop">here</a>)<br>
 
-                        </p>
-                        <p>
-                        <div class="image-container">
-                            <div class="image">
-                                <img lazyimg="history-of-promises-assets/slide-39.jpg" alt="an A+ unification" />
-                                <noscript>
-                                    <img src="history-of-promises-assets/slide-39.jpg" alt="an A+ unification" />
-                                </noscript>
-                            </div>
-                        </div>
-                        <div class="image-container">
-                            <div class="image">
-                                <img lazyimg="history-of-promises-assets/slide-41.jpg" alt="50+ A+ implementations" />
-                                <noscript>
-                                    <img src="history-of-promises-assets/slide-41.jpg" alt="50+ A+ implementations" />
-                                </noscript>
-                            </div>
-                        </div>
-                        <p>This test suite and spec lead to 50+ compatible Promise implementation, which
-                            was a massive win for the community because it meant that you did not have to
-                            worry about different async / deferred / promise implementations. So long as the
-                            implementation was A+ you know that they would be compat at the .then level. The
-                            meta win here was the fact that having multiple agreeing implementations showed
-                            tc39 that there was community consensus around Promises… an idea that a few
-                            years earlier was thought to be too esoteric for common use. </p>
-                        <p>
-                        <div class="image-container">
-                            <div class="image">
-                                <img lazyimg="history-of-promises-assets/slide-42.jpg"
-                                    alt="promises landed in es2015 by tc39 - 2015" />
-                                <noscript>
-                                    <img src="history-of-promises-assets/slide-42.jpg"
-                                        alt="promises landed in es2015 by tc39 - 2015" />
-                                </noscript>
-                            </div>
-                        </div>
-                        <p>Because of the community buy in and eventual need for other async operations (in
-                            es6 (at the time) now es2015 -- like module loading which was supposed to land
-                            in es2015) Promises were fast tracked and landed -- with much thanks to Domenic
-                            Denicola </p>
-                        <p>So here we are in 2020 using an API that is the composite of ideas and work
-                            starting in 1961, spanning multiple languages, and multiple generations.</p>
-                        <hr>
-                        <p>
-                            Special thanks to Kris Kowal, Mark Miller, Rebecca Murphey, Alex Russell, and Domenic Denicola for their help in reconstructing this timeline.
-                        </p>
-                        <hr>
-                        Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
+        </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-39.jpg" alt="an A+ unification" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-39.jpg" alt="an A+ unification" />
+                </noscript>
+            </div>
+        </div>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-41.jpg" alt="50+ A+ implementations" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-41.jpg" alt="50+ A+ implementations" />
+                </noscript>
+            </div>
+        </div>
+        <p>This test suite and spec lead to 50+ compatible Promise implementation, which
+            was a massive win for the community because it meant that you did not have to
+            worry about different async / deferred / promise implementations. So long as the
+            implementation was A+ you know that they would be compat at the .then level. The
+            meta win here was the fact that having multiple agreeing implementations showed
+            tc39 that there was community consensus around Promises… an idea that a few
+            years earlier was thought to be too esoteric for common use. </p>
+        <p>
+        <div class="image-container">
+            <div class="image">
+                <img lazyimg="history-of-promises-assets/slide-42.jpg" alt="promises landed in es2015 by tc39 - 2015" />
+                <noscript>
+                    <img src="history-of-promises-assets/slide-42.jpg" alt="promises landed in es2015 by tc39 - 2015" />
+                </noscript>
+            </div>
+        </div>
+        <p>Because of the community buy in and eventual need for other async operations (in
+            es6 (at the time) now es2015 -- like module loading which was supposed to land
+            in es2015) Promises were fast tracked and landed -- with much thanks to Domenic
+            Denicola </p>
+        <p>So here we are in 2020 using an API that is the composite of ideas and work
+            starting in 1961, spanning multiple languages, and multiple generations.</p>
+        <hr>
+        <p>
+            Special thanks to Kris Kowal, Mark Miller, Rebecca Murphey, Alex Russell, and Domenic Denicola for their
+            help in reconstructing this timeline.
+        </p>
+        <hr>
+        Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
     </article>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script>
