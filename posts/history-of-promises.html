@@ -96,9 +96,9 @@
                 <img lazyimg="history-of-promises-assets/slide-5.jpg" alt="#include <stdio.h>
                     int main()
                     {
-                        printf('hi \n;)
+                        printf("hi \n");
                         usleep(100 * 100)
-                        printf('byte;)
+                        printf("bye \n");
 
                         return 0;
                     }" />
@@ -106,18 +106,18 @@
                     <img src="history-of-promises-assets/slide-5.jpg" alt="#include <stdio.h>
                         int main()
                         {
-                            printf('hi \n;)
+                            printf("hi \n");
                             usleep(100 * 100)
-                            printf('byte;)
+                            printf("bye \n");
     
                             return 0;
                         }" />
                 </noscript>
             </div>
         </div>
-        <p>Let me illustrate the point in code. Here you can see we print hello, sleep for a while and then print
-            by. While we are asleep nothing else is going on in the program, it is just
-            sitting there, waiting doing nothing else. When the process completes we continue on with our
+        <p>Let me illustrate the point in code. Here you can see we print "hello", sleep for a while and then print
+            "bye". While we are asleep nothing else is going on in the program, it is just
+            sitting there, waiting - doing nothing else. When the process completes we continue on with our
             program. <strong>The Important thing</strong> to takeaway here is the fact that while we are
             asleep, <strong>NOTHING</strong> is happening, <strong>Nothing can happen at all</strong> given this
             paradigm. This is an important concept to keep in mind as we wander onto this
@@ -163,7 +163,7 @@
         </div>
         </p>
         <p>How did these 7 letters when joined together so precariously yield such a useful
-            and power thing? </p>
+            and powerful thing? </p>
         <div class="image-container">
             <div class="image">
                 <img lazyimg="history-of-promises-assets/slide-9.jpg"
@@ -174,8 +174,8 @@
                 </noscript>
             </div>
         </div>
-        <p>which as you know was one of the biggest shifts javascript development since Brendan Eich wrote the
-            initial implementation of javascript. In his presentation at jsconf, this early version version of node had
+        <p>Ryan Dahl first presented Node.js in 2009, which as you know was one of the biggest shifts JavaScript development since Brendan Eich wrote the
+            initial implementation of JavaScript. In his presentation at jsconf, this early version version of node had
             Promises… well &quot;Promises&quot;.. Of course I wanted to find out exactly what this implementation looked
             like so I cloned the node js repo to take a look at the logs (FAIR WARNING this repo is kinda big and took
             30 minutes :( so I do not really recommend that you do it.)</p>
