@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>On developer metrics - Time to debug</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <style>
+        .metric-table tr td {
+            padding: 3px 26px 3px 0
+        }
+
+        td.metric-name {
+            width: 40%;
+        }
+    </style>
+    <link rel="stylesheet" target="_blank" href="post.css">
+</head>
+
+<body>
+    <article>
+
+        <h1>On Developer Metrics - Time to Debug</h1>
+
+
+        <p>
+            Is it common when setting up a new engineer on your team that at least one expert is needed to help them get
+            the code running? Does your team often fix code without running it locally and instead tests on your staging
+            environment? Does your team have no way to run components of your codebase in isolation without running the
+            entire application? This post explores what these situations mean, and how you can make measurable
+            improvements that increase the satisfaction and productivity of your engineering team.
+        </p>
+        <h2>Background</h2>
+
+
+        <p>
+            <a target="_blank" href="https://landing.google.com/engprod/">Engineering
+                Productivity</a></span>, or software engineering effectiveness is an engineering <a
+                target="_blank" href="https://skamille.medium.com/engineering-productivity-b1ea12db02e4">domain</a> focused on improving
+            the overall organizational output and satisfaction that engineers experience while doing their job. <a
+                target="_blank" href="https://gradle.com/blog/top-three-reasons-to-launch-a-dedicated-developer-productivity-engineering-team/">Commonly</a>
+            the decision to create a focused and dedicated investment in engineering productivity happens due to a
+            collection of signals:
+        </p>
+        <p>
+
+        </p>
+        <ol>
+
+            <li>The output of engineers no longer scales alongside the growth of the organization or software.
+
+            <li>1:1s and exit-interviews expose frustration with tools and the inability to achieve “<a
+                    target="_blank" href="https://blog.planview.com/what-is-flow-and-why-it-matters/">flow</a>” while working.
+
+            <li>Engineers in the company are increasingly investing their time in bespoke tooling to improvise their
+                local team’s productivity. These individuals are a self-selecting cohort who initially built solutions
+                to scratch their own itch, but their work (rooted in <a
+                    target="_blank" href="https://firstround.com/review/empathy-driven-development-how-engineers-can-tap-into-this-critical-skill/">developer
+                    empathy</a>) is quickly leveraged by the larger team and becomes part of the default toolkit for
+                work.
+            </li>
+        </ol>
+        <p>
+            In my personal observations, <em>signal 3 represents </em>the most visible symptom leading to this decision;
+            most likely your team or larger group already has multiple people filling this role in a partial capacity.
+        </p>
+        <p>
+            As organizational resources and investments in this engineering productivity domain grow, being able to
+            measure the improvements becomes critical for justifying the resource allocation and impact to the company.
+            <strong><em>But what to measure</em></strong>? Software as service <a
+                target="_blank" href="https://codeclimate.com/">products</a> and <a
+                target="_blank" href="https://www.amazon.com/Accelerate-Software-Performing-Technology-Organizations/dp/1942788339">research</a>
+            within this domain suggests looking at the following:
+        </p>
+
+        <table class="metric-table" style="text-align: left;">
+            <thead>
+                <tr>
+                    <th><strong>Metric</strong>
+                    </th>
+                    <th><strong>Humanized Metric</strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="metric-name">Time spent waiting for pre-submit verification
+                    </td>
+                    <td>How long does it take for my CI to tell me if this is passing or failing?
+                    </td>
+                </tr>
+                <tr>
+                    <td class="metric-name">Volume of changes sent per engineer
+                    </td>
+                    <td>How many pull requests does each engineer make each day?
+                    </td>
+                </tr>
+                <tr>
+                    <td class="metric-name">Code-review latency
+                    </td>
+                    <td>How long does an engineer have to wait for someone to peer review their code?
+                    </td>
+                </tr>
+                <tr>
+                    <td class="metric-name">Number of rollouts per day
+                    </td>
+                    <td>How often are we able to deploy to production?
+                    </td>
+                </tr>
+                <tr>
+                    <td class="metric-name">Number of defects that reach production
+                    </td>
+                    <td>How often do we ship a major regression or bug that needs to be rolled back or that pages
+                        someone at
+                        a very undesirable hour?
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+
+        <p>
+            Here is where things get challenging (<em>and where I disagree with the status quo</em>). When looking to
+            improve the productivity of an organization, the metrics above focus too much on the output of the system
+            and not the input. If you don’t select the correct measures, you risk optimizing only for the output and
+            overfitting solutions for measurable outcomes instead of fixing the deeper challenges that lead to actual
+            improvements for the people in your organization.
+        </p>
+        <h2>The flaw in these metrics</h2>
+
+
+        <p>
+            I am not here to say that these metrics are bad or even wrong; rather, I want to make the case that these
+            measures alone miss an essential measure of the input to the system - it’s called <strong>Time To
+                Debug</strong>.<br>
+        </p>
+
+        <table style="background: #e6e8e97a; border-color: #747e7e;">
+            <tr>
+                <td><strong>Time To Debug</strong> [TTD]
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                    <em>Definition: </em>
+                    </br>
+                        The time it takes from observing a problem in production to when someone can debug the suspect
+                        code.
+                    <p>
+                        This metric “time to debug” is a composition of multiple user flows joined together into an
+                        end-to-end user (engineer) journey. Listed below is a common but not exclusive version of the
+                        TTD flow.
+                    </p>
+                    <ol>
+                        <li>Time to checkout
+                            <ul>
+
+                                <li>Time to configure your environment to run the application
+                                </li>
+                            </ul>
+
+                        <li>Time to build
+
+                        <li>Time to run/boot
+
+                        <li>Time to trigger the targeted line of code
+                        </li></ol>
+                </td>
+            </tr>
+        </table>
+
+
+        <p>
+            In practice what does this look like?
+        </p>
+        <p>
+
+            Consider the case where a bug is filed about WidgetFoo in your app, it is expected that the widget when
+            tapped shows a value of 7 but instead is showing 6.9997 breaking the customer flow. An engineer is assigned
+            the bug and needs to fix it.
+        </p>
+        <p>
+
+            The engineer first using some type of code-search tooling locates the suspect logic and identifies potential
+            steps to debug the unexpected behavior:
+        </p>
+        <b>WidgetFoo.ts</b>
+        <code>
+    <pre>
+class WidgetFoo {
+	public calculateValue(num: number) {
+    	//
+    	// “BUSINESS LOGIC”
+        //
+        <span style="background: #fff176">console.log(“input: “, num, “calculation 1: “, calc1Num);</span>
+        return finalNum;
+    }
+}</pre>
+</code>
+        <p>
+
+            To continue the debugging workflow the engineer must now build and run this code - reproducing the bug and
+            now seeing their debugging log to continue their journey.
+        </p>
+        <p>
+            The goal and challenge of this metric is to understand how long the debug cycle takes. For this metric
+            specifically we are not only talking about the time from save to re-run; rather, we are talking about the
+            entire process of checking out the code, changing a line, and then seeing that log in your development
+            environment. Boiled down further - how long does it take from pointing at a screenshot of the issue until
+            someone can have that code running with a new debug statement.
+        </p>
+        <h3>My pitch is simple: </h3>
+
+
+        <p>
+            Optimizing the <em>time to debug</em> workflow is critical to ensure that your organization is able to move
+            quickly, onboard more engineers, and have fluidity within the organization.
+        </p>
+        <h3>But the execution is hard</h3>
+
+
+        <p>
+            First, let me acknowledge that this metric is not easy to measure. It cuts across enough tooling and
+            processes that it would be rare to have instrumentation in enough locations for your organization to easily
+            see this as a datapoint. Additionally this workflow is not static, as your organization grows and changes
+            over time the tooling and landscape of the workflow will always be changing as will the type of bug and
+            development that is happening. Rather than assume that you can quantify through programmatic measurement I
+            recommend leaning into the human aspect of the problem.
+        </p>
+        <p>
+            <strong>Recommendation:</strong>
+        </p>
+        <ol>
+
+            <li>Generate a document that outlines the steps required to go from zero to debug within your codebase for a
+                sample bug. Add this document into your onboarding material / readme for your project
+
+            <li>Measure the time and number of steps it takes for you to go through this workflow based on the document
+                (point 1)
+
+            <li>Revisit points 1 & 2 every 3 months measuring the time and steps it takes - specifically it is important
+                that when revisiting point 1 you attempt to start from as close to zero as possible as often the initial
+                machine setup cost is quite high and ignorable after the first time you go through point 1.
+            </li>
+        </ol>
+        <p>
+            This workflow is <strong>the</strong> critical user journey, it is a cycle (at least steps 2 to 4) that
+            repeats daily for most engineers. It should be seamless and fast to go from zero to debugging.
+            <br><br><span style="background: #fff176">Omitting Time to debug from your success metrics carries with it a
+                risk of ignoring the input to
+                your system, and ignoring the experience that your team feels every day.</span>
+        </p>
+        <hr>
+
+
+        <p>
+            Thanks to Susie Lu, Paul Irish, Sebastian McKenzie, Fabian Canas, and Craig Jolicoeur for helping to review
+            and edit.
+        </p>
+        <p>
+            Are you interested in this concept? Want to discuss further? Let’s continue the conversation on <a
+                target="_blank" href="https://twitter.com/samccone">Twitter</a>
+        </p>
+        <hr>
+
+
+        <h2>addendum</h2>
+
+
+        <h3>Does time to debug assume a local checkout / build is required? </h3>
+
+
+        <p>
+            For many software projects it is possible for debugging to be done entirely through an interactive debugger
+            using domain specific tooling. The TTD metric continues to be a valid measure even in this case.
+            Specifically time to debug in this case would be more inline with the following steps:
+        </p>
+        <p>
+            <strong>Time to debug:</strong>
+        </p>
+        <ol>
+
+            <li>Time to deobfuscate the stack
+
+            <li>Time to attach the debugger to the code
+
+            <li>Time to trigger the line of code that is exhibiting the incorrect behavior.
+            </li>
+        </ol>
+        <p>
+            The point of this metric is not to inflict rigid steps and a framework around the progress, but rather to
+            highlight the workflow and highlight the need to invest in the time to debug workflow.
+        </p>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-100642-4');
+        </script>
+    </article>
+</body>
+
+</html>
