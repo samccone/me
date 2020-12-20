@@ -1,23 +1,8 @@
-<html>
-  <head>
-    <title>Logging js errors with Selenium Webdriver</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="post.css">
-  </head>
-  <body>
-    <article>
-      <h1> Logging js errors with Selenium Webdriver</h1>
-      <p>Imagine a world where your continuous integration server is failing, but everything is passing locally.</p>
-      <p>Sound familiar? Wish that you could just open the browser console and look to see if there were any errors?</p>
-      <p><b>Good news!</b> this is a solved problem and something that you can put to use right now.</p>
-      <p><quote>Solved problem? but I have googled around and there are 0 good instructions for how to do this</quote></p>
-      <img src="https://cloud.githubusercontent.com/assets/883126/9508477/fa434ad2-4c12-11e5-86ba-a63c11f60d91.png"/>
-      <p>Well... <b>here is the solution!</b></p>
-      <pre><code>
-        var webdriver = require('selenium-webdriver');
+<title>Logging js errors with Selenium Webdriver</title><meta name=viewport content="width=device-width,initial-scale=1"><style>article{max-width:650px;margin:0 auto;word-break:break-word}article img{max-width:100%}p{line-height:21px}pre{white-space:pre-wrap;user-select:all}quote,{padding:20px;font-style:italic;font-size:21px;display:block;color:#888}{{ { {}</style><article><h1>Logging js errors with Selenium Webdriver</h1><p>Imagine a world where your continuous integration server is failing, but everything is passing locally.<p>Sound familiar? Wish that you could just open the browser console and look to see if there were any errors?<p><b>Good news!</b> this is a solved problem and something that you can put to use right now.<p><quote>Solved problem? but I have googled around and there are 0 good instructions for how to do this</quote></p><img src=https://cloud.githubusercontent.com/assets/883126/9508477/fa434ad2-4c12-11e5-86ba-a63c11f60d91.png><p>Well... <b>here is the solution!</b><pre><code>
+        var webdriver = require(&#39;selenium-webdriver&#39;);
         var browser = new webdriver.Builder()
         .withCapabilities({
-          browserName: 'chrome'
+          browserName: &#39;chrome&#39;
         }).build();
 
         // write your awesome tests here
@@ -25,27 +10,17 @@
 
         // when you want logs
         (new webdriver.WebDriver.Logs(browser))
-        .get('browser')
+        .get(&#39;browser&#39;)
         .then(function (v) {
-          v && v.length && console.log(v);
+          v &amp;&amp; v.length &amp;&amp; console.log(v);
         });
-      </code></pre>
-      <img src="https://cloud.githubusercontent.com/assets/883126/9508558/bf4c1958-4c13-11e5-8ca6-7498ff96cfe8.png"/>
-      <p> And just like that you will have JS and console errors reported to you on CI! </p>
-      Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
-      <hr>
-      <div id="disqus_thread"></div>
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script>
-<script>
+      </code></pre><img src=https://cloud.githubusercontent.com/assets/883126/9508558/bf4c1958-4c13-11e5-8ca6-7498ff96cfe8.png><p>And just like that you will have JS and console errors reported to you on CI!</p>Sam Saccone <a href=http://twitter.com/samccone target=_blank>@samccone</a><hr><div id=disqus_thread></div><script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script><script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'UA-100642-4');
-</script>
-
-      <script type="text/javascript">
+</script><script>
           /* * * CONFIGURATION VARIABLES * * */
           var disqus_shortname = 'samsaccone';
 
@@ -55,8 +30,4 @@
               dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
           })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-    </article>
-  </body>
-
+      </script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript rel=nofollow>comments powered by Disqus.</a></noscript></article>
