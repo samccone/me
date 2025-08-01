@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>From Prototype to Product: An Engineer's Playbook for Shipping LLMs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" target="_blank" href="post.css">    
+    <style type="text/css">
+        @import url(https://themes.googleusercontent.com/fonts/css?kit=t5YsyKnlDc3n4vem6Ge4YwqohUHQuuLQ9dr7VYyJoGUGwDa2xo2BTh9RpchWfIuFNYs2vGgnHchRP24jhZYtxg);
+
+        ul.lst-kix_l7uh816vj46h-0 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_l7uh816vj46h-1 {
+            list-style-type: none
+        }
+
+        .lst-kix_4vkd6yqpm4r6-7>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-7
+        }
+
+        ul.lst-kix_l7uh816vj46h-4 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_l7uh816vj46h-5 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_l7uh816vj46h-2 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_hya4nvk2is3y-6.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-6 0
+        }
+
+        .lst-kix_4vkd6yqpm4r6-7>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-7, lower-latin) ". "
+        }
+
+        ul.lst-kix_l7uh816vj46h-3 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_l7uh816vj46h-8 {
+            list-style-type: none
+        }
+
+        .lst-kix_4vkd6yqpm4r6-6>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-6, decimal) ". "
+        }
+
+        ul.lst-kix_l7uh816vj46h-6 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_l7uh816vj46h-7 {
+            list-style-type: none
+        }
+
+        .lst-kix_4vkd6yqpm4r6-4>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-4, lower-latin) ". "
+        }
+
+        .lst-kix_4vkd6yqpm4r6-5>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-5, lower-roman) ". "
+        }
+
+        .lst-kix_4vkd6yqpm4r6-2>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-2, lower-roman) ". "
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-8.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-8 0
+        }
+
+        .lst-kix_4vkd6yqpm4r6-3>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-3, decimal) ". "
+        }
+
+        .lst-kix_4vkd6yqpm4r6-0>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-0, decimal) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-3>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-3
+        }
+
+        .lst-kix_4vkd6yqpm4r6-1>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-1, lower-latin) ". "
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-3.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-3 0
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-7.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-7 0
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-0.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-0 0
+        }
+
+        .lst-kix_l7uh816vj46h-0>li:before {
+            content: "\0025cf   "
+        }
+
+        .lst-kix_hya4nvk2is3y-1>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-1
+        }
+
+        .lst-kix_l7uh816vj46h-2>li:before {
+            content: "\0025a0   "
+        }
+
+        .lst-kix_l7uh816vj46h-3>li:before {
+            content: "\0025cf   "
+        }
+
+        .lst-kix_l7uh816vj46h-1>li:before {
+            content: "\0025cb   "
+        }
+
+        .lst-kix_l7uh816vj46h-5>li:before {
+            content: "\0025a0   "
+        }
+
+        .lst-kix_tcomtcbj2pbb-0>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-0
+        }
+
+        ol.lst-kix_hya4nvk2is3y-0.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-0 0
+        }
+
+        .lst-kix_4vkd6yqpm4r6-8>li:before {
+            content: "" counter(lst-ctn-kix_4vkd6yqpm4r6-8, lower-roman) ". "
+        }
+
+        .lst-kix_l7uh816vj46h-4>li:before {
+            content: "\0025cb   "
+        }
+
+        ol.lst-kix_hya4nvk2is3y-1.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-1 0
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-5 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-6 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-7 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-8 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-7 {
+            list-style-type: none
+        }
+
+        .lst-kix_l7uh816vj46h-6>li:before {
+            content: "\0025cf   "
+        }
+
+        .lst-kix_l7uh816vj46h-7>li:before {
+            content: "\0025cb   "
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-6 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-5 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-4 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-3 {
+            list-style-type: none
+        }
+
+        .lst-kix_l7uh816vj46h-8>li:before {
+            content: "\0025a0   "
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-2 {
+            list-style-type: none
+        }
+
+        .lst-kix_7ugq9z5pylyq-3>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-3
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-1 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-0 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-8.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-8 0
+        }
+
+        .lst-kix_7ugq9z5pylyq-8>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-8
+        }
+
+        .lst-kix_hya4nvk2is3y-8>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-8, lower-roman) ". "
+        }
+
+        .lst-kix_tcomtcbj2pbb-4>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-4
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-8 {
+            list-style-type: none
+        }
+
+        .lst-kix_hya4nvk2is3y-5>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-5, lower-roman) ". "
+        }
+
+        .lst-kix_4vkd6yqpm4r6-3>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-3
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-1.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-1 0
+        }
+
+        .lst-kix_hya4nvk2is3y-6>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-6, decimal) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-7>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-7, lower-latin) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-1>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-1, lower-latin) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-0>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-0, decimal) ". "
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-2.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-2 0
+        }
+
+        .lst-kix_4vkd6yqpm4r6-0>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-0
+        }
+
+        .lst-kix_hya4nvk2is3y-4>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-4, lower-latin) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-2>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-2, lower-roman) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-3>li:before {
+            content: "" counter(lst-ctn-kix_hya4nvk2is3y-3, decimal) ". "
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-0 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-1 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-2 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-3 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-4 {
+            list-style-type: none
+        }
+
+        .lst-kix_8osj46bcstts-0>li:before {
+            content: "\0025cf   "
+        }
+
+        ul.lst-kix_q2g40ld8kebs-8 {
+            list-style-type: none
+        }
+
+        .lst-kix_8osj46bcstts-2>li:before {
+            content: "\0025a0   "
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-1.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-1 0
+        }
+
+        .lst-kix_7ugq9z5pylyq-1>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-1, lower-latin) ". "
+        }
+
+        ul.lst-kix_acwc5h9ake00-5 {
+            list-style-type: none
+        }
+
+        .lst-kix_8osj46bcstts-6>li:before {
+            content: "\0025cf   "
+        }
+
+        ul.lst-kix_acwc5h9ake00-4 {
+            list-style-type: none
+        }
+
+        .lst-kix_7ugq9z5pylyq-5>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-5
+        }
+
+        ul.lst-kix_acwc5h9ake00-3 {
+            list-style-type: none
+        }
+
+        .lst-kix_7ugq9z5pylyq-3>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-3, decimal) ". "
+        }
+
+        .lst-kix_7ugq9z5pylyq-5>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-5, lower-roman) ". "
+        }
+
+        ul.lst-kix_acwc5h9ake00-2 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_acwc5h9ake00-1 {
+            list-style-type: none
+        }
+
+        .lst-kix_8osj46bcstts-4>li:before {
+            content: "\0025cb   "
+        }
+
+        ul.lst-kix_acwc5h9ake00-0 {
+            list-style-type: none
+        }
+
+        .lst-kix_8osj46bcstts-8>li:before {
+            content: "\0025a0   "
+        }
+
+        ul.lst-kix_q2g40ld8kebs-6 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_q2g40ld8kebs-7 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_q2g40ld8kebs-4 {
+            list-style-type: none
+        }
+
+        .lst-kix_7ugq9z5pylyq-7>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-7, lower-latin) ". "
+        }
+
+        ul.lst-kix_q2g40ld8kebs-5 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_q2g40ld8kebs-2 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_acwc5h9ake00-8 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_q2g40ld8kebs-3 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_acwc5h9ake00-7 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_q2g40ld8kebs-0 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_acwc5h9ake00-6 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_q2g40ld8kebs-1 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-0.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-0 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-6>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-6
+        }
+
+        .lst-kix_hya4nvk2is3y-5>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-5
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-2.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-2 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-5>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-5
+        }
+
+        .lst-kix_4vkd6yqpm4r6-5>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-5
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-1.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-1 0
+        }
+
+        .lst-kix_7ugq9z5pylyq-4>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-4
+        }
+
+        .lst-kix_7ugq9z5pylyq-0>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-0
+        }
+
+        .lst-kix_hya4nvk2is3y-2>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-2
+        }
+
+        ol.lst-kix_hya4nvk2is3y-3.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-3 0
+        }
+
+        ul.lst-kix_8osj46bcstts-0 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8osj46bcstts-1 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8osj46bcstts-2 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8osj46bcstts-3 {
+            list-style-type: none
+        }
+
+        .lst-kix_tcomtcbj2pbb-5>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-5, lower-roman) ". "
+        }
+
+        .lst-kix_tcomtcbj2pbb-7>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-7, lower-latin) ". "
+        }
+
+        ul.lst-kix_8osj46bcstts-4 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8osj46bcstts-5 {
+            list-style-type: none
+        }
+
+        .lst-kix_tcomtcbj2pbb-1>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-1
+        }
+
+        ul.lst-kix_8osj46bcstts-6 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8osj46bcstts-7 {
+            list-style-type: none
+        }
+
+        .lst-kix_tcomtcbj2pbb-4>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-4, lower-latin) ". "
+        }
+
+        .lst-kix_tcomtcbj2pbb-8>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-8, lower-roman) ". "
+        }
+
+        ul.lst-kix_8osj46bcstts-8 {
+            list-style-type: none
+        }
+
+        .lst-kix_4vkd6yqpm4r6-6>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-6
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-0.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-0 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-6>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-6, decimal) ". "
+        }
+
+        .lst-kix_q2g40ld8kebs-7>li:before {
+            content: "\0025cb   "
+        }
+
+        .lst-kix_q2g40ld8kebs-8>li:before {
+            content: "\0025a0   "
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-5.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-5 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-0>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-0, decimal) ". "
+        }
+
+        .lst-kix_tcomtcbj2pbb-1>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-1, lower-latin) ". "
+        }
+
+        .lst-kix_tcomtcbj2pbb-3>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-3, decimal) ". "
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-4.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-4 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-2>li:before {
+            content: "" counter(lst-ctn-kix_tcomtcbj2pbb-2, lower-roman) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-4>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-4
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-3.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-3 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-3>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-3
+        }
+
+        .lst-kix_acwc5h9ake00-0>li:before {
+            content: "+  "
+        }
+
+        .lst-kix_acwc5h9ake00-1>li:before {
+            content: "+  "
+        }
+
+        ol.lst-kix_hya4nvk2is3y-8.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-8 0
+        }
+
+        .lst-kix_4vkd6yqpm4r6-4>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-4
+        }
+
+        .lst-kix_acwc5h9ake00-4>li:before {
+            content: "+  "
+        }
+
+        .lst-kix_acwc5h9ake00-2>li:before {
+            content: "+  "
+        }
+
+        .lst-kix_acwc5h9ake00-3>li:before {
+            content: "+  "
+        }
+
+        ol.lst-kix_hya4nvk2is3y-7 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_hya4nvk2is3y-6 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_hya4nvk2is3y-5 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-2.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-2 0
+        }
+
+        ol.lst-kix_hya4nvk2is3y-4 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_hya4nvk2is3y-8 {
+            list-style-type: none
+        }
+
+        .lst-kix_hya4nvk2is3y-6>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-6
+        }
+
+        .lst-kix_7ugq9z5pylyq-2>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-2
+        }
+
+        .lst-kix_q2g40ld8kebs-6>li:before {
+            content: "\0025cf   "
+        }
+
+        .lst-kix_q2g40ld8kebs-5>li:before {
+            content: "\0025a0   "
+        }
+
+        ol.lst-kix_hya4nvk2is3y-2.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-2 0
+        }
+
+        .lst-kix_hya4nvk2is3y-0>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-0
+        }
+
+        .lst-kix_q2g40ld8kebs-3>li:before {
+            content: "\0025cf   "
+        }
+
+        .lst-kix_q2g40ld8kebs-2>li:before {
+            content: "\0025a0   "
+        }
+
+        .lst-kix_q2g40ld8kebs-4>li:before {
+            content: "\0025cb   "
+        }
+
+        ol.lst-kix_hya4nvk2is3y-3 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_hya4nvk2is3y-2 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_hya4nvk2is3y-1 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_hya4nvk2is3y-0 {
+            list-style-type: none
+        }
+
+        .lst-kix_acwc5h9ake00-8>li:before {
+            content: "+  "
+        }
+
+        .lst-kix_q2g40ld8kebs-0>li:before {
+            content: "\0025cf   "
+        }
+
+        .lst-kix_q2g40ld8kebs-1>li:before {
+            content: "\0025cb   "
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-8.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-8 0
+        }
+
+        .lst-kix_acwc5h9ake00-5>li:before {
+            content: "+  "
+        }
+
+        .lst-kix_acwc5h9ake00-6>li:before {
+            content: "+  "
+        }
+
+        .lst-kix_acwc5h9ake00-7>li:before {
+            content: "+  "
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-4.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-4 0
+        }
+
+        .lst-kix_8osj46bcstts-1>li:before {
+            content: "\0025cb   "
+        }
+
+        .lst-kix_8osj46bcstts-3>li:before {
+            content: "\0025cf   "
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-3.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-3 0
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-4.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-4 0
+        }
+
+        .lst-kix_7ugq9z5pylyq-2>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-2, lower-roman) ". "
+        }
+
+        .lst-kix_hya4nvk2is3y-7>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-7
+        }
+
+        .lst-kix_7ugq9z5pylyq-6>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-6
+        }
+
+        .lst-kix_7ugq9z5pylyq-4>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-4, lower-latin) ". "
+        }
+
+        .lst-kix_tcomtcbj2pbb-7>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-7
+        }
+
+        .lst-kix_8osj46bcstts-5>li:before {
+            content: "\0025a0   "
+        }
+
+        .lst-kix_8osj46bcstts-7>li:before {
+            content: "\0025cb   "
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-7.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-7 0
+        }
+
+        .lst-kix_7ugq9z5pylyq-8>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-8, lower-roman) ". "
+        }
+
+        .lst-kix_7ugq9z5pylyq-6>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-6, decimal) ". "
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-6.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-6 0
+        }
+
+        ol.lst-kix_hya4nvk2is3y-7.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-7 0
+        }
+
+        .lst-kix_7ugq9z5pylyq-0>li:before {
+            content: "" counter(lst-ctn-kix_7ugq9z5pylyq-0, decimal) ". "
+        }
+
+        .lst-kix_4vkd6yqpm4r6-1>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-1
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-6.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-6 0
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-6.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-6 0
+        }
+
+        ol.lst-kix_hya4nvk2is3y-4.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-4 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-8>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-8
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-5.start {
+            counter-reset: lst-ctn-kix_4vkd6yqpm4r6-5 0
+        }
+
+        .lst-kix_tcomtcbj2pbb-2>li {
+            counter-increment: lst-ctn-kix_tcomtcbj2pbb-2
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-8 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-7 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-4 {
+            list-style-type: none
+        }
+
+        .lst-kix_7ugq9z5pylyq-1>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-1
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-3 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-6 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-5 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-0 {
+            list-style-type: none
+        }
+
+        li.li-bullet-0:before {
+            margin-left: -18pt;
+            white-space: nowrap;
+            display: inline-block;
+            min-width: 18pt
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-2 {
+            list-style-type: none
+        }
+
+        ol.lst-kix_4vkd6yqpm4r6-1 {
+            list-style-type: none
+        }
+
+        .lst-kix_4vkd6yqpm4r6-2>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-2
+        }
+
+        ol.lst-kix_tcomtcbj2pbb-5.start {
+            counter-reset: lst-ctn-kix_tcomtcbj2pbb-5 0
+        }
+
+        ol.lst-kix_7ugq9z5pylyq-7.start {
+            counter-reset: lst-ctn-kix_7ugq9z5pylyq-7 0
+        }
+
+        .lst-kix_4vkd6yqpm4r6-8>li {
+            counter-increment: lst-ctn-kix_4vkd6yqpm4r6-8
+        }
+
+        .lst-kix_hya4nvk2is3y-8>li {
+            counter-increment: lst-ctn-kix_hya4nvk2is3y-8
+        }
+
+        .lst-kix_7ugq9z5pylyq-7>li {
+            counter-increment: lst-ctn-kix_7ugq9z5pylyq-7
+        }
+
+        ol.lst-kix_hya4nvk2is3y-5.start {
+            counter-reset: lst-ctn-kix_hya4nvk2is3y-5 0
+        }
+
+        ol {
+            margin: 0;
+            padding: 0
+        }
+
+        table td,
+        table th {
+            padding: 0
+        }
+
+        .c18 {
+            border-right-style: solid;
+            padding: 5pt 5pt 5pt 5pt;
+            border-bottom-color: #000000;
+            border-top-width: 1pt;
+            border-right-width: 1pt;
+            border-left-color: #000000;
+            vertical-align: top;
+            border-right-color: #000000;
+            border-left-width: 1pt;
+            border-top-style: solid;
+            border-left-style: solid;
+            border-bottom-width: 1pt;
+            width: 500pt;
+            border-top-color: #000000;
+            border-bottom-style: solid
+        }
+
+        .c35 {
+            margin-left: 18pt;
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.4285714285714286;
+            orphans: 2;
+            widows: 2;
+            text-align: left;
+            margin-right: 30pt
+        }
+
+        .c28 {
+            background-color: #1e1e1e;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 10.5pt;
+            font-style: normal
+        }
+
+        .c25 {
+            color: #202124;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 10.5pt;
+            font-family: "Roboto";
+            font-style: normal
+        }
+
+        .c21 {
+            color: #1f1f1f;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 10.5pt;
+            font-family: "Courier New";
+            font-style: normal
+        }
+
+        .c2 {
+            color: #1f1f1f;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 10.5pt;
+            font-family: "Courier New";
+            font-style: normal
+        }
+
+        .c8 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 11pt;
+            
+            font-style: normal
+        }
+
+        .c26 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 11pt;
+            font-family: "Roboto Mono";
+            font-style: normal
+        }
+
+        .c13 {
+            color: #000000;
+            font-weight: 700;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 11pt;
+            
+            font-style: normal
+        }
+
+        .c1 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 11pt;
+            font-family: "Ubuntu Mono";
+            font-style: normal
+        }
+
+        .c11 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 16pt;
+            
+            font-style: normal
+        }
+
+        .c12 {
+            padding-top: 18pt;
+            padding-bottom: 6pt;
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        .c31 {
+            color: #000000;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 11pt;
+            font-family: "Ubuntu Mono";
+            font-style: normal
+        }
+
+        .c0 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.15;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        .c5 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.0;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        .c36 {
+            color: #000000;
+            font-weight: 400;
+            vertical-align: baseline;
+            font-size: 11pt;
+            
+            font-style: normal
+        }
+
+        .c20 {
+            font-size: 10.5pt;
+            font-family: "Courier New";
+            color: #1f1f1f;
+            font-weight: 400
+        }
+
+        .c22 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.0;
+            text-align: left
+        }
+
+        .c15 {
+            margin-left: auto;
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin-right: auto
+        }
+
+        .c9 {
+            text-decoration-skip-ink: none;
+            -webkit-text-decoration-skip: none;
+            color: #1155cc;
+            text-decoration: underline
+        }
+
+        .c34 {
+            font-size: 10.5pt;
+            font-family: "Courier New";
+            color: #1f1f1f;
+            font-weight: 400
+        }
+
+        .c27 {
+            background-color: #ffffff;
+            max-width: 468pt;
+            padding: 72pt 72pt 72pt 72pt
+        }
+
+        .c7 {
+            margin-left: 36pt;
+            text-indent: -18pt;
+            height: 11pt
+        }
+
+        .c30 {
+            text-decoration-skip-ink: none;
+            -webkit-text-decoration-skip: none;
+            text-decoration: underline
+        }
+
+        .c23 {
+            border: 1px solid black;
+            margin: 5px
+        }
+
+        .c19 {
+            font-weight: 400;
+            font-family: "Ubuntu Mono"
+        }
+
+        .c4 {
+            margin-left: 36pt;
+            padding-left: 0pt
+        }
+
+        .c17 {
+            padding: 0;
+            margin: 17px 0 0 0;
+        }
+
+        .c14 {
+            color: inherit;
+            text-decoration: inherit
+        }
+
+        .c6 {
+            height: 0pt
+        }
+
+        .c16 {
+            font-weight: 700
+        }
+
+        .c29 {
+            font-style: italic
+        }
+
+        .c33, .c21 {
+            background-color: #f4cccc
+        }
+
+        .c32 {
+            margin-left: 36pt
+        }
+
+        .c10 {
+            height: 11pt
+        }
+
+        .c24 {
+            background-color: #00ff00
+        }
+
+        .c3 {
+            background-color: #d9ead3
+        }
+
+        .title {
+            padding-top: 0pt;
+            color: #000000;
+            font-size: 26pt;
+            padding-bottom: 3pt;
+            
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        .subtitle {
+            padding-top: 0pt;
+            color: #666666;
+            font-size: 15pt;
+            padding-bottom: 16pt;
+            
+            line-height: 1.15;
+            page-break-after: avoid;
+            orphans: 2;
+            widows: 2;
+            text-align: left
+        }
+
+        li {
+            color: #000000;
+            font-size: 11pt;
+            
+        }
+
+        p {
+            margin: 0;
+            color: #000000;
+            font-size: 11pt;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <h1>From Prototype to Product: An Engineer's Playbook for Shipping LLMs</h1>
+    <p class="c0"><span class="c8">After two years of building with Large Language Models, I&#39;ve seen a pattern
+            emerge: teams are more rewarded for using AI vs driving measurable outcomes that happen to be LLM enhanced.
+            It&#39;s easier than ever to build a shiny demo, but the path from that demo to a launched, impactful
+            product remains as challenging as ever.</span></p>
+    <p class="c0"><span class="c8"><br>This isn&#39;t for lack of trying. The truth is that achieving high-quality,
+            production-ready results is hard. The current Cambrian explosion of AI-powered prototypes is exciting, but
+            how many will actually land?</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">This post is a battle-tested playbook for closing that gap. We&#39;ll walk through a
+            five-step framework for taking an LLM project from a clever idea to a production-grade feature that delivers
+            real-world value. <br></span></p>
+    <p class="c0"><span class="c8">We will cover:</span></p>
+    <ul class="c17 lst-kix_8osj46bcstts-0 start">
+        <li class="c0 c4 li-bullet-0"><span class="c16">Rapid Idea Validation</span><span class="c8">: Confirming
+                viability in hours, not weeks.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c16">Fast Development Loops</span><span>: Building a developer
+                workflow to test prompts and ideas in minutes.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c16">Robust Evals</span><span>: Creating a testbed with good and bad
+                evals to benchmark performance during your development loops.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c16">Prompt Debugging</span><span class="c8">: Using &quot;thinking
+                tokens&quot; to understand and fix your prompt&#39;s behavior.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c16">Code-vs-Prompt Balance</span><span class="c8">: Knowing when to
+                engineer your prompt further and when to use programmatic &ldquo;tradition&rdquo; solutions as part of
+                the solution.</span></li>
+    </ul>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">For the context of this overview we will use a project brief and apply the above
+            playbook to in order to see how it works in practice:</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c0 c10"><span class="c8"></span></p>
+                <p class="c0"><span class="c8">CUJ: I want to automate code-reviews to take into account simple to catch
+                        logical issues in the code such as adding new variables that are never used. <br><br>For
+                        example:</span></p>
+                <p class="c0 c10"><span class="c8"></span></p>
+                <p class="c0"><span class="c1">// existing code</span></p>
+                <p class="c0"><span class="c1">(new code) var a = &ldquo;wow&ldquo;</span></p>
+                <p class="c0"><span class="c1">// existing code</span></p>
+                <p class="c0 c10"><span class="c8"></span></p>
+                <p class="c0"><span class="c8">Should be automatically flagged during review so that a human does not
+                        need to manually find these cases during code-review and instead they can focus on the business
+                        logic. </span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <h2  id="h.lwhbcfmrcgob"><span >1. Rapid idea validation</span></h2>
+    <p class="c0"><span class="c8">With our project brief, the first step is rapid validation. Ideas are cheap, but
+            building is expensive. A quick &#39;proof of life&#39; demo is the critical gate between abandoning an idea
+            and moving forward.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">Too often projects jump into the technical underpinning of setting up infra just to
+            reach a point of proof of concept - infatuation with the technology has a way of losing the product within
+            the technological-wanderlust, it is not uncommon to see someone spend _weeks_ learning the latest
+            MCP/Agent/$TECH just to find out that the idea was a dead-end. </span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">The first step is to create an example of a case we want to be able to catch</span>
+    </p>
+    <p class="c0"><span>Using </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://github.com/webpack/tooling/pull/25&amp;sa=D&amp;source=editors&amp;ust=1754091211893035&amp;usg=AOvVaw1FFm6Tl92JJgyKgl_5mv7K">https://github.com/webpack/tooling/pull/25</a></span><span>&nbsp;as
+            a base we can update the </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://patch-diff.githubusercontent.com/raw/webpack/tooling/pull/25.patch&amp;sa=D&amp;source=editors&amp;ust=1754091211893183&amp;usg=AOvVaw3pBiHsKI-tvbo8Jwyq1O6P">URL</a></span><span>&nbsp;by
+            appending .patch to generate a patch payload And </span><span class="c24">modify</span><span
+            class="c8">&nbsp;the patch slightly to insert this dead-code example</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c0"><span class="c1">From 59ff615d0408c68ce2874c1f571445bdb5082c2a Mon Sep 17 00:00:00
+                        2001</span></p>
+                <p class="c0"><span class="c1">From: alexander-akait &lt;sheo13666q@gmail.com&gt;</span></p>
+                <p class="c0"><span class="c1">Date: Thu, 10 Jul 2025 18:19:59 +0300</span></p>
+                <p class="c0"><span class="c1">Subject: [PATCH] fix: handle more types with `NodeJS` prefix</span></p>
+                <p class="c0 c10"><span class="c1"></span></p>
+                <p class="c0"><span class="c1">---</span></p>
+                <p class="c0"><span class="c1">&nbsp;generate-types/index.js | 7 +++++++</span></p>
+                <p class="c0"><span class="c1">&nbsp;1 file changed, 7 insertions(+)</span></p>
+                <p class="c0 c10"><span class="c1"></span></p>
+                <p class="c0"><span class="c1">diff --git a/generate-types/index.js b/generate-types/index.js</span></p>
+                <p class="c0"><span class="c1">index 8251254..f211043 100644</span></p>
+                <p class="c0"><span class="c1">--- a/generate-types/index.js</span></p>
+                <p class="c0"><span class="c1">+++ b/generate-types/index.js</span></p>
+                <p class="c0"><span class="c1">@@ -841,6 +841,13 @@ const printError = (diagnostic) =&gt; {</span></p>
+                <p class="c0"><span class="c1 c24">+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let a =
+                        &ldquo;checkerState&rdquo; </span></p>
+                <p class="c0"><span
+                        class="c1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/**
+                        @type {ts.TypeNode} */</span></p>
+                <p class="c0"><span
+                        class="c1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let
+                        typeNode = /** @type {any} */ (type)._typeNode;</span></p>
+                <p class="c0"><span
+                        class="c1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+                        (type.aliasSymbol) {</span></p>
+                <p class="c0"><span
+                        class="c1">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const
+                        fullEscapedName = getFullEscapedName(type.aliasSymbol);</span></p>
+                <p class="c0"><span
+                        class="c1">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+                        (fullEscapedName.includes(&quot;NodeJS.&quot;)) {</span></p>
+                <p class="c0"><span
+                        class="c1">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+                        {</span></p>
+                <p class="c0"><span
+                        class="c1">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type:
+                        &quot;primitive&quot;,</span></p>
+                <p class="c0"><span
+                        class="c1">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:
+                        fullEscapedName,</span></p>
+                <p class="c0"><span
+                        class="c1">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</span>
+                </p>
+                <p class="c0"><span
+                        class="c1">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+                </p>
+                <p class="c0"><span
+                        class="c1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const
+                        aliasType = checker.getDeclaredTypeOfSymbol(type.aliasSymbol);</span></p>
+                <p class="c0"><span
+                        class="c1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+                        (aliasType &amp;&amp; aliasType !== type) {</span></p>
+                <p class="c0"><span
+                        class="c1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const
+                        typeArguments = type.aliasTypeArguments || [];</span></p>
+                <p class="c22 c10"><span class="c8"></span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">Now, instead of setting up a complex development environment, we can head straight to
+            a tool like Google&#39;s AI Studio. We can paste our patch file directly into the prompt and see if we can
+            get a result in seconds.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c30">Prompt:</span><span><br></span><span class="c1">Given the following DIFF, identify
+            code which given the diff looks to be unused, report on the lines &nbsp;- do not explain your work</span>
+    </p>
+    <p class="c0 c10"><span class="c1"></span></p>
+    <p class="c0"><span class="c1">$DIFF_HERE</span></p>
+    <p class="c0 c10"><span class="c1"></span></p>
+    <p class="c0"><span class="c30 c36">Result:</span></p>
+    <p class="c0"><span class="c1">- let a = &ldquo;checkerState&rdquo; </span></p>
+    <p class="c0 c10"><span class="c1"></span></p>
+    <p class="c0"><span><br>Immediately we have </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://aistudio.google.com/app/prompts?state%3D%257B%2522ids%2522:%255B%25221YeeVQxCZuzrHzWQs1njvKgHcnj8hDeWW%2522%255D,%2522action%2522:%2522open%2522,%2522userId%2522:%2522116273588483603342582%2522,%2522resourceKeys%2522:%257B%257D%257D%26usp%3Dsharing&amp;sa=D&amp;source=editors&amp;ust=1754091211897719&amp;usg=AOvVaw2KjXYCCDMoMmC3pczom-n-">validated</a></span><span>&nbsp;that
+            (</span><span>with a simple size of 1) this idea</span><span
+            class="c29">potentially</span><span class="c8">&nbsp;is viable and as such it may make sense to advance
+            towards the next level of project vetting.</span></p>
+    <h2  id="h.33uic1rz1q4"><span >2. Establishing a fast development loop</span></h2>
+    <p class="c0"><span class="c8">A successful proof of concept is key, but to develop it into a real feature, you need
+            a fast development loop&mdash;one measured in minutes, not hours. It must be trivial to tweak a prompt and
+            see the result quickly. It needs to be trivial and normal to tweak your prompt or underlying tech to see the
+            side-effect as fast as possible, while normally this seems obvious, the glare of the new (LLM) tech does
+            cause people to lose sight of this basic requirement for normal software development practices and in the
+            process of ramping up to &ldquo;real&rdquo; results in engineers losing the ability to play in the sandbox.
+            This results in iteration slowing to a deploy / soak cycle as compared to a rapid local development
+            loop.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span>Luckily aistudio makes it easy to go from our initial validation prompt and </span><span>import
+            it into a colab notebook meaning we have a way to programmatically run our workflow</span><sup><a
+                href="#cmnt3" id="cmnt_ref3">[c]</a></sup><span class="c8">&nbsp;without having to go to a UI every time
+            and copy and paste. This is critical to enable scaling out our ability to iterate on the prompt and evaluate
+            the systems performance. </span></p>
+    <p class="c0"><span
+            style=""><img
+                alt="" src="/posts/appliedai_img1.png"
+                style="width: 643px; height: 247px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title=""></span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">This programmatic workflow is non-negotiable. Friction or omission on this step is
+            what kills LLM powered product iteration and separates existence from excellence. </span></p>
+    <h2  id="h.6jyl3byb173c"><span >3. Building your Test Bed: TDD for LLMs</span></h2>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">Once you have a fast development loop, you need to know if you&#39;re making
+            progress. The best way to do this is to build an evaluation set. Think of it as Test-Driven Development
+            (TDD) for LLMs. It isn&#39;t scary; it&#39;s the single practice that separates mediocre results from
+            excellent ones. In my experience, no successful LLM powered project exists without some form of offline
+            evaluation.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span>A great source for real-world test cases is mining existing data covering the user space
+            you&#39;re trying to operate in. For our &quot;unused code&quot; agent, we can use the GitHub </span><span
+            class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://cloud.google.com/blog/topics/public-datasets/github-on-bigquery-analyze-all-the-open-source-code&amp;sa=D&amp;source=editors&amp;ust=1754091211901042&amp;usg=AOvVaw2_eZOmhugjAoU5nnOhV7Ou">archive</a></span><span
+            class="c8">&nbsp;on BigQuery to find real code reviews where humans flagged exactly this issue.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c5"><span class="c1">SELECT</span></p>
+                <p class="c5"><span class="c1">&nbsp;repo.name,</span></p>
+                <p class="c5"><span class="c1">&nbsp;actor.login as user,</span></p>
+                <p class="c5"><span class="c1">&nbsp;JSON_EXTRACT_SCALAR(payload, &#39;$.comment.body&#39;) AS
+                        comment_body,</span></p>
+                <p class="c5"><span class="c1">&nbsp;JSON_EXTRACT_SCALAR(payload, &#39;$.comment.html_url&#39;) AS
+                        comment_url</span></p>
+                <p class="c5"><span class="c1">FROM</span></p>
+                <p class="c5"><span class="c1">&nbsp;`githubarchive.day.202506*`</span></p>
+                <p class="c5"><span class="c1">WHERE</span></p>
+                <p class="c5"><span class="c1">&nbsp;type = &#39;CommitCommentEvent&#39;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;# remove bots</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;AND actor.login not like &quot;%[bot]%&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;# filter out markdown</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;AND JSON_EXTRACT_SCALAR(payload, &#39;$.comment.body&#39;)
+                        not like &quot;%#%&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;AND JSON_EXTRACT_SCALAR(payload, &#39;$.comment.body&#39;)
+                        not like &quot;%&lt;details%&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;AND LOWER(JSON_EXTRACT_SCALAR(payload,
+                        &#39;$.comment.body&#39;)) LIKE &#39;%unused%&#39;</span></p>
+                <p class="c5"><span class="c1">limit 100;</span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span>To keep this example focused, we&#39;ll select three real-world commits identified by our query.
+            We&#39;ll use these as our initial test bench, complete with the &quot;ground truth&quot; of what a human
+            reviewer found (</span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://github.com/codepath/site-unit2-project1-music-playlist-explorer-starter/commit/fb6d805d55b5774f3f71ae96c62fd0550cb06ea7%23r159591099&amp;sa=D&amp;source=editors&amp;ust=1754091211903937&amp;usg=AOvVaw30y74k1UiugVg-6K0rgnWQ">1</a></span><span>,</span><span
+            class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://github.com/aws-samples/synthetics-canary-local-debugging-sample/commit/c772cfda34fa5d582b52f02fe439a47df6fc7c96%23r160277650&amp;sa=D&amp;source=editors&amp;ust=1754091211904086&amp;usg=AOvVaw3qiVLdFICckLEa4lyKhbPz">2</a></span><span>,</span><span
+            class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://github.com/nmap/nmap/commit/671b6490bf27253be759dfc979d20f4622414b7e%23commitcomment-159759955&amp;sa=D&amp;source=editors&amp;ust=1754091211904181&amp;usg=AOvVaw0P9lPQly25y4ESVK47OX6X">3</a></span><span
+            class="c8">).</span></p>
+    <p class="c0 c10"><span class="c25"></span></p>
+    <p class="c0"><span>From these URLs we then can turn them into a simple evaluation case that we can use
+            programmatically from our </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://colab.research.google.com/drive/1QKdQnOX_m-ZP9mIqdynysMn0KQOtS_GQ?usp%3Dsharing&amp;sa=D&amp;source=editors&amp;ust=1754091211904604&amp;usg=AOvVaw2oiRH6-G3tNuaIL_0buRC5">notebook</a></span><span
+            class="c8">&nbsp;to determine how well our agent is performing. </span></p>
+            <br>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c5"><span class="c1">urls = [</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;dict(</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp;
+                        &nbsp;url=&quot;https://github.com/codepath/site-unit2-project1-music-playlist-explorer-starter/commit/fb6d805d55b5774f3f71ae96c62fd0550cb06ea7.patch&quot;,</span>
+                </p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;human_found_miss=&quot;&quot;&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;music-playlist-creator/script.js - line
+                        2</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;&quot;&quot;&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;),</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;dict(</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp;
+                        &nbsp;url=&#39;https://github.com/aws-samples/synthetics-canary-local-debugging-sample/commit/c772cfda34fa5d582b52f02fe439a47df6fc7c96.patch&#39;,</span>
+                </p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp;human_found_miss=&quot;&quot;&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;MonitoringAppGeneric.java - line 17</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;&quot;&quot;&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;),</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;dict(</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp;
+                        &nbsp;url=&#39;https://github.com/nmap/nmap/commit/671b6490bf27253be759dfc979d20f4622414b7e.patch&#39;,</span>
+                </p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;human_found_miss=&quot;&quot;&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;scripts/multicast-profinet-discovery.nse -
+                        line 113</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;scripts/multicast-profinet-discovery.nse -
+                        line 118</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp;&quot;&quot;&quot;</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;)</span></p>
+                <p class="c5"><span class="c19">]</span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c25"></span></p>
+    <p class="c0"><span class="c8">Running our initial, simple prompt against these three test cases was immediately
+            illuminating. It failed on most of them, but more importantly, it showed us why:</span></p>
+    <ol class="c17 lst-kix_tcomtcbj2pbb-0 start" start="1">
+        <li class="c0 c4 li-bullet-0"><span class="c8">It was getting confused by non-code files.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c8">It was flagging code that existed before the patch, not just
+                newly added code.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c8">Its output format was inconsistent and hard to parse.</span></li>
+    </ol>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span>This is the power of an eval set. It turns a vague sense of &quot;it&#39;s not working&quot;
+            into a concrete list of problems and examples to solve. Armed with this knowledge, we evolved the prompt
+            from this:</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c0"><span class="c1">&quot;&quot;&quot;Given the following DIFF, identify code which given the
+                        diff looks to be unused, report on the lines &nbsp;- do not explain your work</span></p>
+                <p class="c0 c10"><span class="c1"></span></p>
+                <p class="c0 c10"><span class="c1"></span></p>
+                <p class="c0"><span class="c1">```{diff}```&quot;&quot;&quot;)</span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c13">To</span></p>
+    <p class="c0 c10"><span class="c13"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c0"><span class="c1">Given the following DIFF, identify newly added code which given the diff
+                        are unused.</span></p>
+                <p class="c0"><span class="c1 c3">Unused typically is indicated by the newly added variables or
+                        functions not being referenced or used in the given patch.</span></p>
+                <p class="c0 c10"><span class="c1 c3"></span></p>
+                <p class="c0"><span class="c1 c3">SKIP config files, and package dependency files and focus on only CODE
+                        changes for the report.</span></p>
+                <p class="c0 c10"><span class="c1 c3"></span></p>
+                <p class="c0"><span class="c1 c3">Report on the lines in the following format:</span></p>
+                <p class="c0 c10"><span class="c1 c3"></span></p>
+                <p class="c0"><span class="c1 c3"># Unused code report</span></p>
+                <p class="c0 c10"><span class="c1 c3"></span></p>
+                <p class="c0"><span class="c1 c3">- file name: `my-file/name.js`</span></p>
+                <p class="c0"><span class="c1 c3">&nbsp;- unused lines:</span></p>
+                <p class="c0"><span class="c1 c3">&nbsp; &nbsp;- `event.stopPropagation` line 45</span></p>
+                <p class="c0 c10"><span class="c1"></span></p>
+                <p class="c0 c10"><span class="c1"></span></p>
+                <p class="c0"><span class="c19">Do not explain your work, only report very high confidence findings on
+                        code.</span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c13"></span></p>
+    <p class="c0"><span>With these targeted changes, our success rate on the test set jumped from 20% to 100% recall. We
+            now had a reliable signal to guide our work. But while we could see what was happening, we still
+        </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://en.wikipedia.org/wiki/Gray-box_testing&amp;sa=D&amp;source=editors&amp;ust=1754091211910902&amp;usg=AOvVaw2V_k-jcAOtEjkVHWUM-tmU">couldn&#39;t</a></span><span>&nbsp;see
+            why. That brings us to debugging the prompt itself.</span></p>
+    <h2  id="h.jkrsw39honli"><span>4. </span><span>From Black Box to Debugger: Using Thinking Tokens</span>
+    </h2>
+    <p class="c0"><span>Prompt engineering can at times feel like a black-box to try and convince (or </span><span
+            class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://www.reddit.com/r/OpenAI/comments/1lcwc4f/do_llms_work_better_if_you_threaten_them_not/&amp;sa=D&amp;source=editors&amp;ust=1754091211911443&amp;usg=AOvVaw0FtiqPvYVQUXyBj6BB2VFk">threaten</a></span><span
+            class="c8">) the LLM to do what you want. Up until very recently with the exposure of thinking tokens
+            debugging the performance of the prompt felt more magic than science with literal books written on the
+            topics. With the exposure of thinking budgets and thinking tokens from LLM providers we can all of a sudden
+            pull back the covers on exactly what is going on from the prompt + context to arrive at the final generated
+            tokens. </span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span>The trick is to </span><span class="c16">turn them on </span><span>(</span><span class="c9"><a
+                class="c14"
+                href="https://www.google.com/url?q=https://ai.google.dev/gemini-api/docs/thinking%23summaries&amp;sa=D&amp;source=editors&amp;ust=1754091211912042&amp;usg=AOvVaw3Lv6qTwoT5V1hjhoxyX45X">gemini</a></span><span>,
+        </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://platform.openai.com/docs/guides/reasoning?api-mode%3Dresponses&amp;sa=D&amp;source=editors&amp;ust=1754091211912136&amp;usg=AOvVaw3YhckWG_woqK8dVwubNJKs">openAI</a></span><span>,
+        </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking&amp;sa=D&amp;source=editors&amp;ust=1754091211912223&amp;usg=AOvVaw0CdNvu-F42abb6aUbGYjd0">claude</a></span><span>)
+        </span><span>and then inspect the thoughts to figure out the current behavior and how the prompt. In many cases
+            the model will tell you where it is spending time and often it will think outloud about how it is struggling
+            with some of the constraints. &nbsp;</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span>Let&#39;s look at one of our test </span><span class="c9"><a target="_blank" class="c14"
+                href="https://www.google.com/url?q=https://github.com/aws-samples/synthetics-canary-local-debugging-sample/commit/c772cfda34fa5d582b52f02fe439a47df6fc7c96.patch&amp;sa=D&amp;source=editors&amp;ust=1754091211912720&amp;usg=AOvVaw2DZKqztXGZMgKh13kJaYmj">cases</a></span><span>&nbsp;that
+            was still producing a noisy output, </span><span class="c33">flagging</span><span>&nbsp;unused
+            imports:</span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c0"><span class="c2"># Unused code report</span></p>
+                <p class="c0"><span class="c2">- file name: `java-canary/src/main/java/org/example</span></p>
+                <p class="c0"><span class="c2">/monitoring/MonitoringAppGeneric.java`</span></p>
+                <p class="c0"><span class="c2">&nbsp;- unused lines:</span></p>
+                <p class="c0"><span class="c2">&nbsp; &nbsp;- `int status=con.getResponseCode()` line 18</span></p>
+                <p class="c0"><span class="c2">- file name: `java-canary/src/main/java/org/example</span></p>
+                <p class="c0"><span class="c2">/monitoring/MonitoringAppWithSteps.java`</span></p>
+                <p class="c0"><span class="c2">&nbsp;- unused lines:</span></p>
+                <p class="c0"><span class="c21">&nbsp; &nbsp;- `import software.amazon.synthetics.StepConfiguration`
+                        line 9</span></p>
+                <p class="c0"><span class="c21">&nbsp; &nbsp;- `import software.amazon.synthetics.StepOptions` line
+                        10</span></p>
+                <p class="c0"><span class="c2">&nbsp; &nbsp;- `return;` line 17</span></p>
+                <p class="c22 c10"><span class="c2"></span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c2"></span></p>
+    <p class="c0"><span>This isn&#39;t quite right; we don&#39;t care about unused imports. But why did the model
+            include them? Let&#39;s look at its thoughts:</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c13">Thoughts:</span></p>
+    <p class="c0 c10"><span class="c13"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c0"><span class="c2">**Pinpointing Unused Code**</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c2">I&#39;ve begun dissecting the diff, zeroing in on new additions. My
+                        approach focuses on specific file types, excluding configuration files. Currently, I&#39;m
+                        parsing the file tree to extract relevant new code. Next, I&#39;ll filter out the obvious
+                        non-code content and then concentrate on further analysis of the remaining additions.</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c2">**Examining New Java Files**</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c20">I&#39;m now focusing on the Java code. I&#39;ve pinpointed the
+                        `MonitoringAppGeneric.java` file and started analyzing its contents. &nbsp;I&#39;ve noted the
+                        package, imports, and method declarations within the file. </span><span class="c33 c34">My next
+                        step involves scrutinizing the usage of the imports</span><span class="c2">&nbsp;and the
+                        `handler()` method within the file&#39;s scope.</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c2">**Investigating Potential Unused Code**</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c2">I&#39;ve carefully examined the `MonitoringAppGeneric.java` file. It
+                        appears the `status` variable, obtained from the connection&#39;s response code, isn&#39;t being
+                        utilized. Also, the import `software.amazon.synthetics.StepConfiguration` in
+                        `MonitoringAppWithSteps.java` is unused. Both of these are strong candidates for unused code.
+                        I&#39;m focusing on confirming these findings and identifying their impact, if any.</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c2">**Examining Potential Dead Code**</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c2">After a deeper dive, I&#39;ve confirmed my initial observation. In
+                        `MonitoringAppGeneric.java`, the variable `status` is indeed assigned a value but remains unused
+                        within the scope. Similarly, the imports `StepConfiguration` and `StepOptions` are not used in
+                        `MonitoringAppWithSteps.java`. I&#39;m now assessing how these unused elements impact overall
+                        functionality and exploring their potential for removal.</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c2">**Pinpointing Unused Elements**</span></p>
+                <p class="c0 c10"><span class="c2"></span></p>
+                <p class="c0"><span class="c20">I&#39;ve examined the code for potential unused elements. Specifically,
+                        in `MonitoringAppGeneric.java`, the variable `status` is assigned a value but isn&#39;t
+                        subsequently used. &nbsp;Similarly, in `MonitoringAppWithSteps.java`, the imports
+                        `StepConfiguration` and `StepOptions` are not referenced. I&#39;m focused on confirming their
+                        redundancy and assessing implications.</span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c13"></span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">The answer is right there in plain sight. In its thoughts, the model explicitly
+            states it is &quot;Investigating Potential Unused Code&quot; and then mentions scrutinizing &quot;the usage
+            of the imports.&quot; It&#39;s doing exactly what it thinks we want, but its interpretation is too
+            broad.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">The model told us where it was getting confused. The fix becomes obvious: add a line
+            to the prompt telling it to ignore imports.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c5"><span class="c8 c3">SKIP reporting on unused imports, and focus on variable
+                        declarations.</span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c2"></span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span>After adding this line and re-running, the Thoughts confirm the new behavior and the final
+            output is clean. This technique transforms prompt engineering from a frustrating guessing game into a
+            systematic debugging process. You&#39;re no longer guessing; you&#39;re reading the stack trace.</span></p>
+    <h2  id="h.i0ahrumh36es"><span >5. Knowing when to Code</span></h2>
+    <p class="c0"><span class="c8">The magic of LLMs is infatuating. It makes you believe you can solve any problem with
+            a clever enough prompt. This is a trap. In my experience, the most common failure mode for new LLM projects
+            is trying to force the model to do everything.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">LLMs are powerful reasoning engines, but they are also non-deterministic and can be
+            unreliable at precise, rule-based tasks. The most effective solutions treat the LLM as one powerful
+            component in a larger system, not as the entire system itself.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">Let&#39;s look at our code review agent one last time. We were struggling to make the
+            prompt ignore lines in the diff that weren&#39;t additions. We could have spent hours trying to engineer the
+            perfect instruction to &quot;only pay attention to lines starting with &#39;+&#39;&quot;, but there&#39;s a
+            better way.</span></p>
+    <p class="c0"><span class="c8">A few lines of Python can pre-process the input with perfect accuracy:</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <table class="c15">
+        <tr class="c6">
+            <td class="c18" colspan="1" rowspan="1">
+                <p class="c5"><span class="c1">for url_dict in urls:</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp;if &#39;payload&#39; in url_dict:</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;lines =
+                        url_dict[&#39;payload&#39;].splitlines()</span></p>
+                <p class="c5"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp;filtered_lines = [line for line in lines if
+                        line.strip().startswith(&#39;+&#39;) or line.strip().startswith(&#39;-&#39;)]</span></p>
+                <p class="c5"><span class="c19">&nbsp; &nbsp; &nbsp; &nbsp;url_dict[&#39;payload&#39;] =
+                        &#39;\n&#39;.join(filtered_lines)</span></p>
+            </td>
+        </tr>
+    </table>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">This simple pre-processing step is cheaper, faster, and 100% reliable. It removes
+            noise from the LLM&#39;s input, allowing the prompt to focus on its core competency: reasoning about the
+            semantic meaning of the added code, not parsing diff syntax.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">This leads to a critical heuristic for building with LLMs: Use code for deterministic
+            tasks; use the LLM for reasoning tasks.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">Before you try to solve a problem in your prompt, ask yourself:</span></p>
+    <ul class="c17 lst-kix_l7uh816vj46h-0 start">
+        <li class="c0 c4 li-bullet-0"><span class="c8">Can this be done with a simple rule, filter, or regex? If yes,
+                use code.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c8">Does this require understanding context, intent, or ambiguity? If
+                yes, use the LLM.</span></li>
+    </ul>
+    <p class="c0 c10 c32"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">Letting each component do what it does best is the key to moving from a fragile demo
+            to a robust, production-ready system. Don&#39;t let the magic of the LLM blind you to the power of
+            well-applied traditional code.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <h2  id="h.9j6kiriniml7"><span >Putting It All Together</span></h2>
+    <p class="c0"><span class="c8">So, how do we reliably get from a promising idea to a product that drives outcomes?
+            We stop treating the LLM as the entire solution and start treating it as a powerful component in our
+            engineering toolbox.</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">The journey we followed shows that the principles of good software development
+            haven&#39;t changed. We simply need to adapt them:</span></p>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <ul class="c17 lst-kix_q2g40ld8kebs-0 start">
+        <li class="c0 c4 li-bullet-0"><span class="c8">Validate ideas first, because your time is valuable.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c8">Build a fast development loop, because iteration speed is
+                everything.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c8">Measure performance with a robust evaluation set (TDD for
+                LLMs).</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c8">Debug the model&#39;s logic by reading its thoughts.</span></li>
+        <li class="c0 c4 li-bullet-0"><span class="c8">Architect a hybrid system that uses code and LLM to solve what
+                each one is suited for.</span></li>
+    </ul>
+    <p class="c0 c10"><span class="c8"></span></p>
+    <p class="c0"><span class="c8">The goal isn&#39;t to be a &quot;prompt engineer&quot;&mdash;it&#39;s to be a great
+            software engineer who effectively leverages LLMs. Stop chasing magic. Start engineering.</span></p>
+        </br>
+        Sam Saccone <a href="http://twitter.com/samccone" target="_blank">@samccone</a>
+        <hr>
+        </article>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100642-4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-100642-4');
+        </script>
+</body>
+
+</html>
