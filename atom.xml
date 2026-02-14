@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Sam Saccone</title>
+  <subtitle>Posts from samsaccone.com</subtitle>
+  <link href="https://samsaccone.com/atom.xml" rel="self"/>
+  <link href="https://samsaccone.com/"/>
+  <id>https://samsaccone.com/</id>
+  <updated>2026-02-13T19:00:47.557585Z</updated>
+  <author>
+    <name>Sam Saccone</name>
+  </author>
+  <entry>
+    <title>From Prototype to Product: An Engineer's Playbook for Shipping LLMs</title>
+    <link href="https://samsaccone.com/posts/shipping-llms.html"/>
+    <id>https://samsaccone.com/posts/shipping-llms.html</id>
+    <updated>2025-08-01T00:00:00Z</updated>
+    <summary>From Prototype to Product: An Engineer's Playbook for Shipping LLMs</summary>
+  </entry>
+  <entry>
+    <title>Partial Clone Rollout - Engineering Productivity</title>
+    <link href="https://samsaccone.com/posts/partial-clone-rollout.html"/>
+    <id>https://samsaccone.com/posts/partial-clone-rollout.html</id>
+    <updated>2022-12-01T00:00:00Z</updated>
+    <summary>Partial Clone Rollout - Engineering Productivity</summary>
+  </entry>
+  <entry>
+    <title>Time to debug</title>
+    <link href="https://samsaccone.com/posts/time-to-debug.html"/>
+    <id>https://samsaccone.com/posts/time-to-debug.html</id>
+    <updated>2020-12-01T00:00:00Z</updated>
+    <summary>Time to debug</summary>
+  </entry>
+  <entry>
+    <title>A history of promises.</title>
+    <link href="https://samsaccone.com/posts/history-of-promises.html"/>
+    <id>https://samsaccone.com/posts/history-of-promises.html</id>
+    <updated>2020-07-01T00:00:00Z</updated>
+    <summary>A history of promises.</summary>
+  </entry>
+  <entry>
+    <title>Why is my webpack build slow?</title>
+    <link href="https://samsaccone.com/posts/why-is-my-webpack-build-slow.html"/>
+    <id>https://samsaccone.com/posts/why-is-my-webpack-build-slow.html</id>
+    <updated>2019-07-01T00:00:00Z</updated>
+    <summary>Why is my webpack build slow?</summary>
+  </entry>
+  <entry>
+    <title>Demystifing the HEX</title>
+    <link href="https://samsaccone.com/posts/demystifing-the-hex.html"/>
+    <id>https://samsaccone.com/posts/demystifing-the-hex.html</id>
+    <updated>2019-04-01T00:00:00Z</updated>
+    <summary>Demystifing the HEX</summary>
+  </entry>
+  <entry>
+    <title>Code reviews not nits</title>
+    <link href="https://samsaccone.com/posts/code-reviews-not-nits.html"/>
+    <id>https://samsaccone.com/posts/code-reviews-not-nits.html</id>
+    <updated>2019-02-01T00:00:00Z</updated>
+    <summary>Code reviews not nits</summary>
+  </entry>
+  <entry>
+    <title>Reworking my process</title>
+    <link href="https://samsaccone.com/posts/2015-in-review.html"/>
+    <id>https://samsaccone.com/posts/2015-in-review.html</id>
+    <updated>2015-01-01T00:00:00Z</updated>
+    <summary>Reworking my process</summary>
+  </entry>
+  <entry>
+    <title>Fixing the flake on CI</title>
+    <link href="https://samsaccone.com/posts/fixing-the-flake.html"/>
+    <id>https://samsaccone.com/posts/fixing-the-flake.html</id>
+    <updated>2026-02-13T19:00:47.557568Z</updated>
+    <summary>Fixing the flake on CI</summary>
+  </entry>
+  <entry>
+    <title>Logging JS errors with selenium webdriver</title>
+    <link href="https://samsaccone.com/posts/logging-js-errors-with-selenium-webdriver.html"/>
+    <id>https://samsaccone.com/posts/logging-js-errors-with-selenium-webdriver.html</id>
+    <updated>2026-02-13T19:00:47.557571Z</updated>
+    <summary>Logging JS errors with selenium webdriver</summary>
+  </entry>
+  <entry>
+    <title>Testing with Travis CI and Sauce Labs</title>
+    <link href="https://samsaccone.com/posts/testing-with-travis-and-sauce-labs.html"/>
+    <id>https://samsaccone.com/posts/testing-with-travis-and-sauce-labs.html</id>
+    <updated>2026-02-13T19:00:47.557573Z</updated>
+    <summary>Testing with Travis CI and Sauce Labs</summary>
+  </entry>
+</feed>
