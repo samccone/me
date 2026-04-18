@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -26,17 +25,15 @@ func selectorMatches(sel string, root *html.Node) (bool, error) {
 	return len(s.Select(root)) > 0, nil
 }
 
-// Partially lifted from @andybons
-// https://gist.github.com/andybons/c074c2811f70db5fc3d3f89fbc69f81f
-
+// shakeCSS removes unused CSS rules based on the provided HTML document.
 func shakeCSS(r io.Reader, doc *html.Node) (out bytes.Buffer, err error) {
 	p := pcss.NewParser(r, false)
 	var buf bytes.Buffer
 	activeRules := 0
+	var matchingSelectors []string
 
 	for {
-		gtype, ttype, data := p.Next()
-		_, _ = ttype, data
+		gtype, _, data := p.Next()
 		if err := p.Err(); err != nil {
 			if err == io.EOF {
 				break
@@ -51,40 +48,60 @@ func shakeCSS(r io.Reader, doc *html.Node) (out bytes.Buffer, err error) {
 				sb.Write(v.Data)
 			}
 
-			s := sb.String()
-			// These selectors are not supported.
-			s = strings.TrimSuffix(s, ":link")
-			s = strings.TrimSuffix(s, ":hover")
-			s = strings.TrimSuffix(s, ":active")
-			s = strings.TrimSuffix(s, ":visited")
+			raw := sb.String()
+			s := strings.TrimSpace(raw)
+			s = strings.TrimSuffix(s, ",")
+			s = strings.TrimSpace(s)
 
-			matches, err := selectorMatches(s, doc)
-			if err != nil {
-				return buf, fmt.Errorf("selcss.Compile: %w", err)
+			// Simple pseudo-class stripping for matching purposes.
+			// This handles cases like a:hover by checking for 'a'.
+			matchSel := s
+			if i := strings.Index(matchSel, ":"); i != -1 {
+				matchSel = matchSel[:i]
 			}
-			if matches {
-				activeRules++
-				buf.WriteString(sb.String())
-				if gtype == pcss.QualifiedRuleGrammar {
-					buf.WriteString(",\n")
-				} else if gtype == pcss.BeginRulesetGrammar {
-					buf.WriteString(" {\n")
+			// If stripping left us with empty string (e.g. ":root"), just use original or skip.
+			if matchSel == "" {
+				matchSel = s
+			}
+
+			matches := false
+			if matchSel != "" {
+				var err error
+				matches, err = selectorMatches(matchSel, doc)
+				if err != nil {
+					// Fallback: if we can't compile/match, keep it to be safe.
+					matches = true
 				}
 			} else {
-				fmt.Printf("Unused selector %q in CSS\n", s)
-				if gtype == pcss.BeginRulesetGrammar {
-					buf.WriteString(" {\n")
-				}
+				matches = true
 			}
+
+			if matches {
+				matchingSelectors = append(matchingSelectors, strings.TrimSuffix(strings.TrimSpace(raw), ","))
+			} else {
+				fmt.Fprintf(os.Stderr, "Unused selector %q in CSS\n", s)
+			}
+
+			if gtype == pcss.BeginRulesetGrammar {
+				if len(matchingSelectors) > 0 {
+					activeRules = 1
+					buf.WriteString(strings.Join(matchingSelectors, ", "))
+					buf.WriteString(" {\n")
+				} else {
+					activeRules = 0
+				}
+				matchingSelectors = nil
+			}
+
 		case pcss.BeginAtRuleGrammar:
 			buf.Write(data)
 			for _, v := range p.Values() {
 				buf.Write(v.Data)
 			}
 			buf.WriteString(" {\n")
+
 		case pcss.DeclarationGrammar:
 			if activeRules == 0 {
-				// fmt.Println("No active rules to apply")
 				continue
 			}
 			buf.Write(data)
@@ -93,17 +110,19 @@ func shakeCSS(r io.Reader, doc *html.Node) (out bytes.Buffer, err error) {
 				buf.Write(v.Data)
 			}
 			buf.WriteString(";\n")
+
 		case pcss.EndRulesetGrammar:
 			if activeRules == 0 {
-				// fmt.Println("No active rules to apply")
 				continue
 			}
 			buf.Write(data)
 			buf.WriteByte('\n')
 			activeRules = 0
+
 		case pcss.EndAtRuleGrammar:
 			buf.Write(data)
 			buf.WriteByte('\n')
+
 		case pcss.CommentGrammar:
 			continue
 
@@ -112,15 +131,12 @@ func shakeCSS(r io.Reader, doc *html.Node) (out bytes.Buffer, err error) {
 		}
 	}
 
-	return buf, err
+	return buf, nil
 }
 
-func externalStylesheet(n *html.Node) (href string, stylesheet bool, err error) {
-	href = ""
-	stylesheet = false
-
+func externalStylesheet(n *html.Node) (href string, stylesheet bool) {
 	if n.Data != "link" {
-		return href, stylesheet, nil
+		return "", false
 	}
 
 	for _, a := range n.Attr {
@@ -133,15 +149,12 @@ func externalStylesheet(n *html.Node) (href string, stylesheet bool, err error) 
 		}
 	}
 
-	return href, stylesheet, nil
+	return href, stylesheet
 }
 
 func inlineCSS(root *html.Node, cursor *html.Node, rootFile string) {
 	if cursor.Type == html.ElementNode {
-		href, stylesheet, err := externalStylesheet(cursor)
-		if err != nil {
-			log.Fatalf("unable to determine if stylesheet %v", err)
-		}
+		href, stylesheet := externalStylesheet(cursor)
 		if stylesheet {
 			m := minify.New()
 			m.AddFunc("text/css", css.Minify)
@@ -151,6 +164,7 @@ func inlineCSS(root *html.Node, cursor *html.Node, rootFile string) {
 			if err != nil {
 				log.Fatalf("Unable to open file %v", err)
 			}
+			defer reader.Close()
 
 			parent := cursor.Parent
 			// Remove the current node
@@ -172,8 +186,12 @@ func inlineCSS(root *html.Node, cursor *html.Node, rootFile string) {
 			parent.AppendChild(styleNode[0])
 		}
 	}
-	for c := cursor.FirstChild; c != nil; c = c.NextSibling {
+	// We need to be careful when iterating children if we are removing nodes.
+	// However, externalStylesheet only matches <link> nodes which usually don't have children.
+	for c := cursor.FirstChild; c != nil; {
+		next := c.NextSibling
 		inlineCSS(root, c, rootFile)
+		c = next
 	}
 }
 
@@ -189,19 +207,24 @@ func minifyHTML(root *html.Node, w io.Writer) {
 }
 
 func main() {
-	inline := false
-	filepath := os.Args[1]
-	if len(os.Args) > 2 && os.Args[1] == "-inline" {
-		inline = true
-		filepath = os.Args[2]
+	if len(os.Args) < 2 {
+		fmt.Fprintf(os.Stderr, "Usage: %s [-inline] <file.html>\n", os.Args[0])
+		os.Exit(1)
 	}
 
-	inputFile, err := os.Open(filepath)
+	inline := false
+	path := os.Args[1]
+	if os.Args[1] == "-inline" && len(os.Args) > 2 {
+		inline = true
+		path = os.Args[2]
+	}
+
+	inputFile, err := os.Open(path)
 	if err != nil {
 		log.Fatalf("unable to open file %v", err)
 	}
 
-	contents, err := ioutil.ReadAll(inputFile)
+	contents, err := io.ReadAll(inputFile)
 	inputFile.Close()
 	if err != nil {
 		log.Fatalf("unable read file %v", err)
@@ -211,20 +234,22 @@ func main() {
 	if err != nil {
 		log.Fatalf("unable to parse document %v", err)
 	}
+
+	inlineCSS(z, z, path)
+
 	pr, pw := io.Pipe()
 	go func() {
-		inlineCSS(z, z, filepath)
 		minifyHTML(z, pw)
 		defer pw.Close()
 	}()
 
 	if inline {
-		outputFile, err := os.Create(filepath)
-		defer outputFile.Close()
+		outputFile, err := os.Create(path)
 		if err != nil {
 			log.Fatalf("Error opening file for write  %v", err)
 		}
 		_, err = io.Copy(outputFile, pr)
+		outputFile.Close()
 		if err != nil {
 			log.Fatalf("Error writing to file %v", err)
 		}
