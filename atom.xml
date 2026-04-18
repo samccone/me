@@ -5,7 +5,7 @@
   <link href="https://samsaccone.com/atom.xml" rel="self"/>
   <link href="https://samsaccone.com/"/>
   <id>https://samsaccone.com/</id>
-  <updated>2026-02-13T19:00:47.557585Z</updated>
+  <updated>2026-04-18T11:27:00Z</updated>
   <author>
     <name>Sam Saccone</name>
   </author>
@@ -69,21 +69,21 @@
     <title>Fixing the flake on CI</title>
     <link href="https://samsaccone.com/posts/fixing-the-flake.html"/>
     <id>https://samsaccone.com/posts/fixing-the-flake.html</id>
-    <updated>2026-02-13T19:00:47.557568Z</updated>
+    <updated>2015-01-01T00:00:00Z</updated>
     <summary>Fixing the flake on CI</summary>
   </entry>
   <entry>
     <title>Logging JS errors with selenium webdriver</title>
     <link href="https://samsaccone.com/posts/logging-js-errors-with-selenium-webdriver.html"/>
     <id>https://samsaccone.com/posts/logging-js-errors-with-selenium-webdriver.html</id>
-    <updated>2026-02-13T19:00:47.557571Z</updated>
+    <updated>2015-01-01T00:00:00Z</updated>
     <summary>Logging JS errors with selenium webdriver</summary>
   </entry>
   <entry>
     <title>Testing with Travis CI and Sauce Labs</title>
     <link href="https://samsaccone.com/posts/testing-with-travis-and-sauce-labs.html"/>
     <id>https://samsaccone.com/posts/testing-with-travis-and-sauce-labs.html</id>
-    <updated>2026-02-13T19:00:47.557573Z</updated>
+    <updated>2015-01-01T00:00:00Z</updated>
     <summary>Testing with Travis CI and Sauce Labs</summary>
   </entry>
 </feed>
