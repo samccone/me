@@ -5,10 +5,17 @@
   <link href="https://samsaccone.com/atom.xml" rel="self"/>
   <link href="https://samsaccone.com/"/>
   <id>https://samsaccone.com/</id>
-  <updated>2026-04-18T11:27:00Z</updated>
+  <updated>2026-10-11T08:24:00Z</updated>
   <author>
     <name>Sam Saccone</name>
   </author>
+  <entry>
+    <title>The Streaming Illusion: Why AI Coding Harnesses Lag</title>
+    <link href="https://samsaccone.com/posts/harness-lag.html"/>
+    <id>https://samsaccone.com/posts/harness-lag.html</id>
+    <updated>2026-10-11T00:00:00Z</updated>
+    <summary>The Streaming Illusion: Why AI Coding Harnesses Lag</summary>
+  </entry>
   <entry>
     <title>From Prototype to Product: An Engineer's Playbook for Shipping LLMs</title>
     <link href="https://samsaccone.com/posts/shipping-llms.html"/>
