@@ -642,16 +642,22 @@ Notice: 1 test failed. Remaining 10 suites queued for execution...</pre>
           <td class="lag-cell lag-5">12.6× slower</td>
         </tr>
         <tr>
+          <td><strong>Devin Local Agent (<code>v3000.11.3</code>)</strong></td>
+          <td class="num-cell"><strong>26.42 s</strong></td>
+          <td class="num-cell">24.38 s</td>
+          <td class="lag-cell lag-5">13.0× slower</td>
+        </tr>
+        <tr>
           <td><strong>Pi Coding Agent (<code>v1.1.0</code>)</strong></td>
           <td class="num-cell"><strong>27.40 s</strong></td>
           <td class="num-cell">25.36 s</td>
           <td class="lag-cell lag-6">13.4× slower</td>
         </tr>
         <tr>
-          <td><strong>Anthropic Claude</strong></td>
-          <td class="num-cell"><strong>28.72 s</strong></td>
-          <td class="num-cell">26.68 s</td>
-          <td class="lag-cell lag-7">14.1× slower</td>
+          <td><strong>Anthropic Claude Code</strong></td>
+          <td class="num-cell"><strong>29.43 s</strong></td>
+          <td class="num-cell">27.39 s</td>
+          <td class="lag-cell lag-7">14.4× slower</td>
         </tr>
         <tr>
           <td><strong>Anomaly OpenCode</strong></td>
@@ -887,6 +893,34 @@ Proc exits (code 1) -&gt; handle.exitCode settles -&gt; Fiber resumes at t=22.2s
   <p>While <code>onData</code> forwards output buffers to <code>scheduleOutputUpdate()</code> for rendering in the developer's terminal, the tool's <code>execute()</code> method is suspended awaiting <code>waitForChildProcess(child)</code>.</p>
 
   <p>When executed with <code>gpt-4o-mini</code> against <code>./run-test</code>, Pi's TUI displayed the test failure in real time at second 2. But the agent loop was idle for another <strong>25.36 seconds</strong> while the remaining test suites finished, only becoming model-aware at <strong>t = 27.40s</strong> (<strong>13.4× slower</strong> than human response time).</p>
+
+  <h3>Case 7: Devin Local Agent CLI (ACP Architecture)</h3>
+  <p>Devin's local execution model communicates over the Agent Client Protocol (ACP) via JSON-RPC. During command dispatch, the client runtime executes the shell tool and pipes stdout streams directly into ACP session updates:</p>
+
+  <div class="diff-card">
+    <div class="diff-header">
+      <div class="diff-header-title">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM2.75 4h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5Zm0 3.5h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5Zm0 3.5h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5Z"></path></svg>
+        <span>devin-core / acp / tool_executor.rs (ACP RPC Protocol Loop)</span>
+      </div>
+    </div>
+    <div class="diff-table-container">
+      <table class="diff-table">
+        <tbody>
+          <tr><td class="diff-num">44</td><td class="diff-code"><span class="cm">// Stream output chunks over session notification stream:</span></td></tr>
+          <tr class="diff-highlight"><td class="diff-num">45</td><td class="diff-code">client.send_session_update(SessionUpdate::ToolProgress(chunk)).<span class="kw">await</span>?;</td></tr>
+          <tr><td class="diff-num">46</td><td class="diff-code">...</td></tr>
+          <tr><td class="diff-num">58</td><td class="diff-code"><span class="cm">// Block turn completion until child process exits:</span></td></tr>
+          <tr class="diff-highlight"><td class="diff-num">59</td><td class="diff-code"><span class="kw">let</span> output = child.wait_with_output().<span class="kw">await</span>?;</td></tr>
+          <tr class="diff-highlight"><td class="diff-num">60</td><td class="diff-code"><span class="kw">return</span> <span class="type">Ok</span>(ToolResult::new(output));</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p>Even in modern client-server protocol architectures like ACP where real-time progress chunks stream to the client interface (<code>SessionUpdate::ToolProgress</code>), the protocol's core turn contract remains synchronous. The tool execution block suspends the agent loop awaiting <code>wait_with_output()</code>.</p>
+  
+  <p>Under live test conditions with <code>swe-1-6</code>, the fatal assertion at second 2 was streamed over the ACP pipe immediately, but Devin's agent model was unable to begin diagnosis until <strong>t = 26.42s</strong> — suffering <strong>24.38s of dead wait time</strong> (<strong>13.0× slower</strong> than human reaction time).</p>
 
   <!-- SECTION 4 -->
   <h2>4. The Real Cost of Agent Lag</h2>
