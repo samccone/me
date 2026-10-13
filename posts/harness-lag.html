@@ -931,7 +931,6 @@ Proc exits (code 1) -&gt; handle.exitCode settles -&gt; Fiber resumes at t=22.2s
   <p>Agent driven software engineering is fundamentally a game of rapid cycles and high-frequency iteration loops. An agent attempting to solve a subtle bug or navigate an unfamiliar codebase routinely goes through many cycles of thinking, patching, and testing.</p>
   <p>As a one-off command in an interactive terminal, waiting an extra 20 seconds might seem like just a few seconds. But these agents depend on many cycles and rapid iteration at scale:</p>
   <ul>
-    <li>In a single 30-turn agent session, a 23-second blind wait burns <strong>11.5 minutes</strong> of pure, unrecoverable idle latency.</li>
     <li>At human speed, that entire diagnostic loop concludes in under 1 minute.</li>
     <li>Across thousands of agents running millions of iterations across an engineering organization, what seems like just a few seconds as a one-off ends up accounting for <strong>years and years of wasted wall-clock agent time</strong> stranding compute infrastructure, driving up cloud costs, and stalling execution.</li>
   </ul>
