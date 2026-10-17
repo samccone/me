@@ -5,10 +5,17 @@
   <link href="https://samsaccone.com/atom.xml" rel="self"/>
   <link href="https://samsaccone.com/"/>
   <id>https://samsaccone.com/</id>
-  <updated>2026-10-11T08:24:00Z</updated>
+  <updated>2026-10-17T13:45:00Z</updated>
   <author>
     <name>Sam Saccone</name>
   </author>
+  <entry>
+    <title>When memories fade - skills after compaction</title>
+    <link href="https://samsaccone.com/posts/when-memories-fade-skills-after-compaction.html"/>
+    <id>https://samsaccone.com/posts/when-memories-fade-skills-after-compaction.html</id>
+    <updated>2026-10-17T00:00:00Z</updated>
+    <summary>When memories fade - skills after compaction</summary>
+  </entry>
   <entry>
     <title>The Streaming Illusion: Why AI Coding Harnesses Lag</title>
     <link href="https://samsaccone.com/posts/harness-lag.html"/>
